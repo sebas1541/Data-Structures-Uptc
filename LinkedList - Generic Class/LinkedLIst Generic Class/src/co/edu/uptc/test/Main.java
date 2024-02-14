@@ -1,5 +1,6 @@
 package co.edu.uptc.test;
 
+import co.edu.uptc.model.Student;
 import co.edu.uptc.structures.DoubleList;
 import co.edu.uptc.structures.SimpleList;
 
@@ -26,13 +27,14 @@ public class Main {
         System.out.println(simpleList.show());
 
         */
-        DoubleList<String> doubleList = new DoubleList<>();
+        DoubleList<Student> doubleList = new DoubleList<>();
+        Student student1 = new Student("Nombre", 12, "Ingeniería");
+        Student student2 = new Student("Hola", 12, "Medicina");
 
+        doubleList.insert(student1);
+        doubleList.insert(student2);
 
-        doubleList.insert("Hola");
-        doubleList.insert("Hola");
-
-        System.out.println(doubleList.show());
+        System.out.println(doubleList.showInverted());
 
 
     }

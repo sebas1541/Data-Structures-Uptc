@@ -7,38 +7,35 @@ public class DoubleList<T> {
         head = null;
     }
 
-    public void insert(T data){
-        Node <T> previousNode = null;
-        Node <T> newNode  = new Node(data);
+    public void insert(T object){
+        Node <T> newNode  = new Node(object);
 
         if (isEmpty()){
             head = newNode;
         }else {
             Node <T> aux = head;
             while(aux.getNext() != null){
-                previousNode = aux;
                 aux = aux.getNext();
             }
             aux.setNext(newNode);
-            aux.setPrevious(previousNode);
-
+            newNode.setPrevious(aux);
 
 
         }
     }
 
-    public Boolean exist(T data) {
+    public Boolean exist(T object) {
         Node <T> aux = head;
-        while (aux != null && !(aux.getData().equals(data))) {
+        while (aux != null && !(aux.getData().equals(object))) {
             aux = aux.getNext();
         }
         return aux != null;
     }
 
-    public void remove(T data){
+    public void remove(T object){
         Node previous = null;
         Node aux = head;
-        while(aux!= null && !(aux.getData().equals(data)) ){
+        while(aux!= null && !(aux.getData().equals(object)) ){
             previous = aux;
             aux = aux.getNext();
         }
@@ -50,6 +47,7 @@ public class DoubleList<T> {
             head = aux.getNext();
         } else{
             previous.setNext(aux.getNext());
+            aux.getNext().setPrevious(previous);
         }
     }
 
@@ -62,11 +60,22 @@ public class DoubleList<T> {
     }
 
     public String showInverted(){
-        //TO-DO
-        //Recorrer la lista hasta el final, y después imprimir cada número demanera invertida para asegurarse que
-        //El atributo previous está funcionando de manera correcta
-        return "";
+        if (isEmpty()) {
+            return "La lista está vacía";
+        }
+        StringBuilder sb = new StringBuilder();
+        Node<T> aux = head;
+
+        while (aux.getNext() != null) {
+            aux = aux.getNext();
+        }
+        while (aux != null) {
+            sb.append(aux.getData()).append(" ");
+            aux = aux.getPrevious();
+        }
+        return sb.toString().trim();
     }
+
 
 
 
