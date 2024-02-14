@@ -1,14 +1,19 @@
 package co.edu.uptc.structures;
 
-public class DoubleList<T> {
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Spliterator;
+import java.util.function.Consumer;
+
+public class DoubleList<T> implements Iterable<T> {
     private Node <T> head;
 
     public DoubleList(){
         head = null;
     }
 
-    public void insert(T object){
-        Node <T> newNode  = new Node(object);
+    public void insert(T data){
+        Node <T> newNode  = new Node(data);
 
         if (isEmpty()){
             head = newNode;
@@ -19,23 +24,25 @@ public class DoubleList<T> {
             }
             aux.setNext(newNode);
             newNode.setPrevious(aux);
-
-
         }
     }
 
-    public Boolean exist(T object) {
+    /**
+
+    public Boolean exist(T data) {
         Node <T> aux = head;
-        while (aux != null && !(aux.getData().equals(object))) {
+        while (aux != null && !(aux.getData().equals(data))) {
             aux = aux.getNext();
         }
         return aux != null;
     }
 
-    public void remove(T object){
+     */
+
+    public void remove(T data){
         Node previous = null;
         Node aux = head;
-        while(aux!= null && !(aux.getData().equals(object)) ){
+        while(aux!= null && !(aux.getData().equals(data)) ){
             previous = aux;
             aux = aux.getNext();
         }
@@ -76,7 +83,38 @@ public class DoubleList<T> {
         return sb.toString().trim();
     }
 
+    @Override
+    public Iterator<T> iterator() {
+        Iterator<T> iterator;
+        iterator = new Iterator<T>() {
+
+            Node<T> current = head;
+            @Override
+            public boolean hasNext() {
+                return current != null;
+            }
+
+            @Override
+            public T next() {
+                T data = current.getData();
+                current = current.getNext();
+                return data;
+            }
+        };
 
 
 
+
+        return iterator;
+    }
+
+    @Override
+    public void forEach(Consumer<? super T> action) {
+        Iterable.super.forEach(action);
+    }
+
+    @Override
+    public Spliterator<T> spliterator() {
+        return Iterable.super.spliterator();
+    }
 }

@@ -2,9 +2,14 @@ package co.edu.uptc.test;
 
 import co.edu.uptc.model.Student;
 import co.edu.uptc.structures.DoubleList;
-import co.edu.uptc.structures.SimpleList;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Main {
+
+
+
     public static void main(String[] args) {
 
         /**
@@ -34,8 +39,11 @@ public class Main {
         doubleList.insert(student1);
         doubleList.insert(student2);
 
-        System.out.println(doubleList.showInverted());
+        Iterator<Student> iterator = doubleList.iterator();
+        while (iterator.hasNext()){
+            System.out.println(iterator.next());
+        }
 
-
+        //System.out.println(doubleList.showInverted());
     }
 }
