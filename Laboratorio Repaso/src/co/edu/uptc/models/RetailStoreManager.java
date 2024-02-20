@@ -9,6 +9,24 @@ public class RetailStoreManager {
         this.storeSimpleList = storeSimpleList;
     }
 
+    public void createStore(String name, String address){
+        RetailStore currentStore = new RetailStore(name, address);
+        storeSimpleList.insert(currentStore);
+    }
+
+    public double seeChainValue(){
+
+        double chainValue = 0;
+        if (storeSimpleList != null){
+            for (RetailStore currentStore : storeSimpleList){
+                chainValue = chainValue + currentStore.totalCostOfProducts();
+            }
+        }
+
+        return chainValue;
+    }
+
+
     public RetailStoreManager() {
         this.storeSimpleList = new SimpleList<>();
     }

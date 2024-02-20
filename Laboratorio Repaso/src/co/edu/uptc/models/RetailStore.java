@@ -41,7 +41,7 @@ public class RetailStore {
     public int quantityOfProducts(){
         int quantity = 0;
         for (Product product : productList){
-           quantity += product.getQuantity();
+            quantity += product.getQuantity();
         }
         return quantity;
     }
@@ -63,10 +63,17 @@ public class RetailStore {
 
     //Punto 5
     public void sellItem(int id){
-
         Product currentProduct = findById(id);
-
+        if (currentProduct != null && currentProduct.getQuantity() > 0){
+            currentProduct.setQuantity(currentProduct.getQuantity() - 1);
+        }
     }
+
+    public void removeProduct(int id){
+        Product currentProduct = findById(id);
+        productList.remove(currentProduct);
+    }
+
 
 
     public String getName() {
