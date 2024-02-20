@@ -26,6 +26,8 @@ public class RetailStore {
         productList.insert(newProduct);
     }
 
+    //Punto 2
+
     public Product findById(int idCode){
         for (Product product : productList){
             if (product.getIdCode() == idCode){
@@ -33,18 +35,28 @@ public class RetailStore {
             }
         }return null;
     }
+
+    //Punto 3
     public int numberOfProducts(){
         return productList.size();
     }
 
+    //Punto 4
+
     public double totalCostOfProducts(){
         double totalCost = 0;
         for (Product product : productList){
+            
+
             totalCost = totalCost + product.getPrice();
         }
         return totalCost;
     }
 
+    //Punto 5
+    public void sellItem(Product product){
+        productList.remove(product);
+    }
 
 
     public String getName() {
