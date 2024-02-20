@@ -37,6 +37,16 @@ public class RetailStore {
     }
 
     //Punto 3
+    //Devuelve todos los items en el supermercado
+    public int quantityOfProducts(){
+        int quantity = 0;
+        for (Product product : productList){
+           quantity += product.getQuantity();
+        }
+        return quantity;
+    }
+
+    //Devuelve todos los tipos de productos únicos en el supermercado
     public int numberOfProducts(){
         return productList.size();
     }
@@ -46,16 +56,15 @@ public class RetailStore {
     public double totalCostOfProducts(){
         double totalCost = 0;
         for (Product product : productList){
-            
-
-            totalCost = totalCost + product.getPrice();
+            totalCost = totalCost + product.getPrice() * product.getQuantity();
         }
         return totalCost;
     }
 
     //Punto 5
-    public void sellItem(Product product){
-        productList.remove(product);
+    public void sellItem(int id){
+
+        findById(id);
     }
 
 
