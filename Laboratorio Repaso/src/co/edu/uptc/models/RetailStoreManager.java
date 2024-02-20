@@ -22,7 +22,6 @@ public class RetailStoreManager {
                 chainValue = chainValue + currentStore.totalCostOfProducts();
             }
         }
-
         return chainValue;
     }
 
