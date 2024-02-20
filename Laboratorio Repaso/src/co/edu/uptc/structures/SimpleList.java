@@ -1,6 +1,10 @@
 package co.edu.uptc.structures;
 
-public class SimpleList <T> {
+import java.util.Iterator;
+import java.util.Spliterator;
+import java.util.function.Consumer;
+
+public class SimpleList <T> implements Iterable<T> {
     private Node<T> head;
 
     public SimpleList(Node<T> head) {
@@ -48,6 +52,34 @@ public class SimpleList <T> {
     }
 
     public String show(){
-        return null;
+        return head.toString();
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new Iterator<T>() {
+            Node<T> currentNode = head;
+            @Override
+            public boolean hasNext() {
+                return currentNode != null;
+            }
+
+            @Override
+            public T next() {
+                T data = currentNode.getData();
+                currentNode = currentNode.getNext();
+                return data;
+            }
+        };
+    }
+
+    @Override
+    public void forEach(Consumer<? super T> action) {
+        Iterable.super.forEach(action);
+    }
+
+    @Override
+    public Spliterator<T> spliterator() {
+        return Iterable.super.spliterator();
     }
 }
