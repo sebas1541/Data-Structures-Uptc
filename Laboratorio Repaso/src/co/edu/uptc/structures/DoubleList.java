@@ -1,10 +1,11 @@
 package co.edu.uptc.structures;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 
-public class DoubleList <T> implements Iterable<T> {
+public class DoubleList <T> implements Iterable<T>{
     private Node<T> head;
 
     public DoubleList(){
@@ -63,17 +64,38 @@ public class DoubleList <T> implements Iterable<T> {
         return sb.toString().trim();
     }
 
+    public Boolean isEmpty(){
+        return head == null;
+    }
+
+    public String show(){
+        return head.toString();
+    }
+
+    public int size(){
+        Node<T> aux = head;
+        int count = 0;
+        while (aux != null){
+            count++;
+            aux = aux.getNext();
+        }
+        return count;
+    }
+
     @Override
     public Iterator<T> iterator() {
         return new Iterator<T>() {
+            Node<T> currentNode = head;
             @Override
             public boolean hasNext() {
-                return false;
+                return currentNode != null;
             }
 
             @Override
             public T next() {
-                return null;
+                T data = currentNode.getData();
+                currentNode.getNext();
+                return data;
             }
         };
     }
@@ -86,13 +108,5 @@ public class DoubleList <T> implements Iterable<T> {
     @Override
     public Spliterator<T> spliterator() {
         return Iterable.super.spliterator();
-    }
-
-    public Boolean isEmpty(){
-        return head == null;
-    }
-
-    public String show(){
-        return head.toString();
     }
 }

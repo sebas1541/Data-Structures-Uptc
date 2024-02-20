@@ -19,16 +19,33 @@ public class RetailStore {
         this.productList = new DoubleList<>();
     }
 
+    //Punto 1
     public void addProduct(String name, int quantity, double price){
         idCounter++;
         Product newProduct = new Product(idCounter, name, quantity, price);
         productList.insert(newProduct);
     }
 
-    public void findById(){
-        //TO-DO: Implement logic in DoubleList to find by ID
-        productList.exist();
+    public Product findById(int idCode){
+        for (Product product : productList){
+            if (product.getIdCode() == idCode){
+                return product;
+            }
+        }return null;
     }
+    public int numberOfProducts(){
+        return productList.size();
+    }
+
+    public double totalCostOfProducts(){
+        double totalCost = 0;
+        for (Product product : productList){
+            totalCost = totalCost + product.getPrice();
+        }
+        return totalCost;
+    }
+
+
 
     public String getName() {
         return name;
