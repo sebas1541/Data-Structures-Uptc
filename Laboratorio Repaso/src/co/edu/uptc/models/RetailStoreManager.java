@@ -25,6 +25,14 @@ public class RetailStoreManager {
         return chainValue;
     }
 
+    public RetailStore findStoreByName(String name){
+        for (RetailStore store : storeSimpleList){
+            if (store.getName().equals(name)){
+                return store;
+            }
+        }return null;
+    }
+
 
     public RetailStoreManager() {
         this.storeSimpleList = new SimpleList<>();

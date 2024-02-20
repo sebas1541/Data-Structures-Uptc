@@ -37,7 +37,4 @@ public class View {
         System.out.println(bookInfo);
     }
 
-    public static void main(String[] args) {
-        new Presenter().run();
-    }
 }

@@ -74,8 +74,6 @@ public class RetailStore {
         productList.remove(currentProduct);
     }
 
-
-
     public String getName() {
         return name;
     }

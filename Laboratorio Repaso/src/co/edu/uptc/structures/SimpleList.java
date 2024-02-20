@@ -51,8 +51,18 @@ public class SimpleList <T> implements Iterable<T> {
         return head == null;
     }
 
-    public String show(){
-        return head.toString();
+    public String show() {
+        if (head == null) {
+            return "The list is empty";
+        }
+
+        StringBuilder sb = new StringBuilder();
+        Node<T> current = head;
+        while (current != null) {
+            sb.append(current.toString()).append("\n");
+            current = current.getNext();
+        }
+        return sb.toString();
     }
 
     @Override
