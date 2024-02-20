@@ -64,7 +64,8 @@ public class RetailStore {
     //Punto 5
     public void sellItem(int id){
 
-        findById(id);
+        Product currentProduct = findById(id);
+
     }
 
 
