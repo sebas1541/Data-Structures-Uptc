@@ -35,7 +35,7 @@ public class Test {
         manager.findStoreByName("Exito").addProduct(product9);
 
 
-        manager.findStoreByName("Exito").removeRangeOfProducts(1,7);
+        manager.findStoreByName("Exito").removeRangeOfProducts(5,7);
         System.out.println(manager.findStoreByName("Exito").loadProducts().toString());
         System.out.println(manager.findStoreByName("Exito").quantityOfProducts());
         System.out.println(manager.findStoreByName("Exito").totalCostOfProducts());
