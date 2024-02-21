@@ -9,6 +9,7 @@ public class Test {
         RetailStoreManager manager = new RetailStoreManager();
 
         RetailStore store = new RetailStore();
+        manager.createStore("Exito", "Calle 10");
 
         Product product = new Product(1, "hola", 10, 15);
         Product product1 = new Product(2, "hola", 10, 15);
@@ -22,20 +23,21 @@ public class Test {
         Product product9 = new Product(9, "hola", 10, 15);
 
 
+        manager.findStoreByName("Exito").addProduct(product);
+        manager.findStoreByName("Exito").addProduct(product1);
+        manager.findStoreByName("Exito").addProduct(product2);
+        manager.findStoreByName("Exito").addProduct(product3);
+        manager.findStoreByName("Exito").addProduct(product4);
+        manager.findStoreByName("Exito").addProduct(product5);
+        manager.findStoreByName("Exito").addProduct(product6);
+        manager.findStoreByName("Exito").addProduct(product7);
+        manager.findStoreByName("Exito").addProduct(product8);
+        manager.findStoreByName("Exito").addProduct(product9);
 
-        store.addProduct(product);
-        store.addProduct(product1);
-        store.addProduct(product2);
-        store.addProduct(product3);
-        store.addProduct(product4);
-        store.addProduct(product5);
-        store.addProduct(product6);
-        store.addProduct(product7);
-        store.addProduct(product8);
-        store.addProduct(product9);
 
-
-        store.removeRangeOfProducts(1,7);
-        System.out.println(store.getProductList().show());
+        manager.findStoreByName("Exito").removeRangeOfProducts(1,7);
+        System.out.println(manager.findStoreByName("Exito").loadProducts().toString());
+        System.out.println(manager.findStoreByName("Exito").quantityOfProducts());
+        System.out.println(manager.findStoreByName("Exito").totalCostOfProducts());
     }
 }

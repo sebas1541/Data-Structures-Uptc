@@ -60,9 +60,15 @@ public class Presenter {
                     sellItem();
                     break;
                 case 5:
+                    removeRange();
+                    break;
+                case 6:
+                    removeRange();
+                    break;
+                case 7:
                     break;
                 default:
-                    view.showMessage("Intente d enuevo");
+                    view.showMessage("Intente de nuevo");
             }
         } while (option != 5);
     }
@@ -87,6 +93,19 @@ public class Presenter {
             Product currentProduct = new Product(id, name, quantity, price);
             store.addProduct(currentProduct);
             view.showMessage("¡Producto añadido exitosamente!");
+        } else {
+            view.showMessage("Tienda no encontrada.");
+        }
+    }
+
+    private void removeRange(){
+        int min =  view.readInt("Ingrese el valor mínimo del rango");
+        int max = view.readInt("Ingrease el valor máximo del rango");
+        String storeName = view.readString("Ingrese el nombre de la tienda: ");
+        RetailStore store = retailStoreManager.findStoreByName(storeName);
+        if (store != null) {
+            store.removeRangeOfProducts(min, max);
+            view.showMessage("El rango de productos fue eliminado");
         } else {
             view.showMessage("Tienda no encontrada.");
         }
