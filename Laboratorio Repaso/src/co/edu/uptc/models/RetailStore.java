@@ -106,13 +106,7 @@ public class RetailStore {
     public void setAddress(String address) {
         this.address = address;
     }
-    public DoubleList<Product> getProductList() {
-        return productList;
-    }
 
-    public void setProductList(DoubleList<Product> productList) {
-        this.productList = productList;
-    }
 
 
 }

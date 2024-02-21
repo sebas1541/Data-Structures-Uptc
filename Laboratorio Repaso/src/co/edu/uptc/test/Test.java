@@ -36,6 +36,7 @@ public class Test {
 
 
         store.removeRangeOfProducts(1,7);
-        System.out.println(store.getProductList().show());
+        System.out.println(store.loadProducts().toString());
+        System.out.println(store.quantityOfProducts());
     }
 }
