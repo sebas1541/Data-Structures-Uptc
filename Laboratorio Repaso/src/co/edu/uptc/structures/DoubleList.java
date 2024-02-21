@@ -49,10 +49,6 @@ public class DoubleList <T> implements Iterable<T>{
         StringBuilder sb = new StringBuilder();
         Node<T> aux = head;
 
-        if (isEmpty()) {
-            return "La lista está vacía";
-        }
-
         while (aux.getNext() != null) {
             aux = aux.getNext();
         }

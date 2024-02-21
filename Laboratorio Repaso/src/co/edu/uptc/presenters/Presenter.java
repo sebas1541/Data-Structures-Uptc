@@ -1,5 +1,6 @@
 package co.edu.uptc.presenters;
 
+import co.edu.uptc.models.Product;
 import co.edu.uptc.models.RetailStore;
 import co.edu.uptc.models.RetailStoreManager;
 import co.edu.uptc.views.View;
@@ -12,6 +13,8 @@ public class Presenter {
         this.retailStoreManager = new RetailStoreManager();
         this.view = new View();
     }
+
+
 
     public void run() {
         mainMenu();
@@ -80,7 +83,9 @@ public class Presenter {
             String name = view.readString("Ingrese el nombre del producto: ");
             int quantity = view.readInt("Ingrese la cantidad del producto: ");
             double price = view.readInt("Ingrese el precio del producto: ");
-            store.addProduct(name, quantity, price);
+            int id = view.readInt("Ingrese el código del producto");
+            Product currentProduct = new Product(id, name, quantity, price);
+            store.addProduct(currentProduct);
             view.showMessage("¡Producto añadido exitosamente!");
         } else {
             view.showMessage("Tienda no encontrada.");
