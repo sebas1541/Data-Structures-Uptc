@@ -1,7 +1,9 @@
 package co.edu.uptc.models;
 
+import co.edu.uptc.exceptions.SingleIdException;
 import co.edu.uptc.structures.DoubleList;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 public class RetailStore {
@@ -18,25 +20,37 @@ public class RetailStore {
         this.productList = new DoubleList<>();
     }
 
-    public boolean addProduct(Product product){
+    public void addProduct(Product product) throws SingleIdException {
         Iterator<Product> iterator = productList.iterator();
         while (iterator.hasNext()){
-            if(iterator.next().getIdCode()==product.getIdCode()){
-                return false;
+            if(iterator.next().getIdCode() == product.getIdCode()){
+               throw new SingleIdException("Los artículos no pueden tener el mismo ID");
             }
         }
         productList.insert(product);
-        return true;
+
     }
 
-    public void removeRangeOfProducts(int min, int max){
-        for (Product product : productList){
-            if (product.getIdCode() >= min && product.getIdCode() <= max){
-                 productList.remove(product);
-            }
+    public void removeRangeOfProducts(int min, int max) {
+        if (productList.isEmpty()){
+            return;
         }
+
+       for (Product product : productList){
+           if (product.getIdCode() >= min && product.getIdCode() <= max){
+               productList.remove(product);
+           }
+       }
     }
 
+    public ArrayList<Product> loadProducts(){
+        Iterator<Product> iterator = productList.iterator();
+        ArrayList<Product> productArrayList=new ArrayList<Product>();
+        while (iterator.hasNext()){
+            productArrayList.add(iterator.next());
+        }
+        return productArrayList;
+    }
 
 
     public Product findById(int idCode){

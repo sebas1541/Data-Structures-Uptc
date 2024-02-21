@@ -28,20 +28,34 @@ public class DoubleList <T> implements Iterable<T>{
     public Boolean exist(){
         return null;
     }
-    public void remove(T data){
-        Node <T> previous = null;
-        Node <T> aux = head;
-        while (aux.getNext() != null && !(aux.getData().equals(data))){
-            previous = aux;
-            aux = aux.getNext();
-        }
-        if (aux == null){
+
+    public void remove(T data) {
+        if (head == null) {
             return;
-        }if (aux == head){
-            head = aux.getNext();
-        }else {
-            previous.setNext(aux.getNext());
-            aux.getNext().setPrevious(previous);
+        }
+        Node<T> current = head;
+
+        if (head.getData().equals(data)) {
+            if (head.getNext() != null) {
+                head = head.getNext();
+                head.setPrevious(null);
+            } else {
+                head = null;
+            }
+            return;
+        }
+
+        while (current != null && !current.getData().equals(data)) {
+            current = current.getNext();
+        }
+        if (current == null) {
+            return;
+        }
+        if (current.getNext() != null) {
+            current.getNext().setPrevious(current.getPrevious());
+        }
+        if (current.getPrevious() != null) {
+            current.getPrevious().setNext(current.getNext());
         }
     }
 
@@ -90,7 +104,9 @@ public class DoubleList <T> implements Iterable<T>{
     @Override
     public Iterator<T> iterator() {
         return new Iterator<T>() {
+            Node<T> lastReturned = null;
             Node<T> currentNode = head;
+
             @Override
             public boolean hasNext() {
                 return currentNode != null;
@@ -98,12 +114,13 @@ public class DoubleList <T> implements Iterable<T>{
 
             @Override
             public T next() {
-                T data = currentNode.getData();
-                currentNode.getNext();
-                return data;
+                lastReturned = currentNode;
+                currentNode = currentNode.getNext();
+                return lastReturned.getData();
             }
         };
     }
+
 
     @Override
     public void forEach(Consumer<? super T> action) {

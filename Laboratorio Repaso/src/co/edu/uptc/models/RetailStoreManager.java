@@ -15,7 +15,6 @@ public class RetailStoreManager {
     }
 
     public double seeChainValue(){
-
         double chainValue = 0;
         if (storeSimpleList != null){
             for (RetailStore currentStore : storeSimpleList){
