@@ -53,7 +53,7 @@ public class SimpleList <T> implements Iterable<T> {
 
     public String show() {
         if (head == null) {
-            return "The list is empty";
+            return null;
         }
 
         StringBuilder sb = new StringBuilder();

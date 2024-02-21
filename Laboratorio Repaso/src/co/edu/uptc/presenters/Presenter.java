@@ -97,7 +97,7 @@ public class Presenter {
         String storeName = view.readString("Ingrese el nombre de la tienda: ");
         RetailStore store = retailStoreManager.findStoreByName(storeName);
         if (store != null) {
-            view.showMessage(store.getProductList().show());
+            view.showMessage(store.loadProducts().toString());
         } else {
             view.showMessage("Tienda no encontrada.");
         }
