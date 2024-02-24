@@ -15,6 +15,10 @@ public class MyList<T> implements List<T> {
         this.head = null;
     }
 
+
+    public static <T> boolean isInstanceOf(Class<T> tclass, Object o){
+        return tclass.isInstance(o);
+    }
     @Override
     public int size() {
         Node<T> aux = head;
@@ -31,7 +35,17 @@ public class MyList<T> implements List<T> {
     }
 
     @Override
-    public boolean contains(Object o) {
+    public boolean contains(Object o) throws ClassCastException, NullPointerException{
+
+        if (o == null){
+            throw new NullPointerException();
+        }
+
+        if (!isInstanceOf(o.getClass(), head.getData())){
+            throw new ClassCastException("El tipo de la clase no es igual");
+        }
+
+
         Node aux = head;
         while(aux != null && aux.getNext() != null){
             if (aux.getData().equals(o)){
@@ -64,7 +78,12 @@ public class MyList<T> implements List<T> {
 
     @Override
     public Object[] toArray() {
-        return new Object[0];
+        Object[]currenArray = new Object[size()];
+        int i = 0;
+        for (Node<T> aux = head; aux != null; aux = aux.getNext()){
+            currenArray[i++] = aux.getData();
+        }
+        return currenArray;
     }
 
     @Override
@@ -73,10 +92,14 @@ public class MyList<T> implements List<T> {
     }
 
     @Override
-    public boolean add(T t) throws NullPointerException {
+    public boolean add(T t) throws NullPointerException, ClassCastException {
+
+        if (!isInstanceOf(t.getClass(), head.getData())){
+            throw new ClassCastException();
+        }
 
         if (t == null){
-            throw new NullPointerException("El objeto no puede estar vacío");
+            throw new NullPointerException();
         }
 
         Node<T> newNode = new Node<T>(t);
@@ -158,22 +181,58 @@ public class MyList<T> implements List<T> {
 
     @Override
     public void clear() {
-
+        head = null;
     }
 
     @Override
-    public T get(int index) {
-        return null;
+    public T get(int index) throws IndexOutOfBoundsException {
+        Node<T> aux = head;
+        if (index < 0 || index >= size() ){
+            throw new IndexOutOfBoundsException();
+        }
+        for (int i = 0; i < index; i++){
+            aux = aux.getNext();
+        }
+        return aux.getData();
     }
 
     @Override
     public T set(int index, T element) {
-        return null;
+        Node<T> aux = head;
+        if (index < 0 || index >= size() ){
+            throw new IndexOutOfBoundsException();
+        }
+
+        for (int i = 0; i < index; i++){
+            aux = aux.getNext();
+        }
+
+        T auxVal = aux.getData();
+        aux.setData(element);
+        return auxVal;
     }
 
     @Override
-    public void add(int index, T element) {
+    public void add(int index, T element) throws NullPointerException {
+        Node<T> aux = head;
 
+        if (index < 0 || index >= size()){
+            throw new NullPointerException();
+        }
+
+        if (index == 0){
+            Node<T> newNode = new Node<T>(element);
+            newNode.setNext(head);
+            if (head != null){
+                head.setPrevious(newNode);
+            }
+            head = newNode;
+        }else {
+            for (int i = 0; i <index; i++) {
+                aux = aux.getNext();
+            }
+
+        }
     }
 
     @Override
@@ -215,6 +274,7 @@ public class MyList<T> implements List<T> {
     public void sort(Comparator<? super T> c) {
         List.super.sort(c);
     }
+
 
     @Override
     public Spliterator<T> spliterator() {
