@@ -26,7 +26,8 @@ public class MyList<T> implements List<T> {
         while (aux != null){
             count++;
             aux = aux.getNext();
-        }return count;
+        }
+        return count;
     }
 
     @Override
@@ -196,6 +197,7 @@ public class MyList<T> implements List<T> {
         return aux.getData();
     }
 
+
     @Override
     public T set(int index, T element) {
         Node<T> aux = head;
@@ -213,25 +215,31 @@ public class MyList<T> implements List<T> {
     }
 
     @Override
-    public void add(int index, T element) throws NullPointerException {
-        Node<T> aux = head;
+    public void add(int index, T element) throws NullPointerException, IndexOutOfBoundsException{
+        if (element == null) throw new NullPointerException();
+        if (index < 0 || index >= size()) throw new IndexOutOfBoundsException();
 
-        if (index < 0 || index >= size()){
-            throw new NullPointerException();
-        }
+        Node<T> newNode = new Node<T>(element);
 
         if (index == 0){
-            Node<T> newNode = new Node<T>(element);
             newNode.setNext(head);
             if (head != null){
                 head.setPrevious(newNode);
             }
             head = newNode;
-        }else {
-            for (int i = 0; i <index; i++) {
+        }else{
+            Node<T> aux = head;
+            for (int i = 0; i < index - 1; i++) {
                 aux = aux.getNext();
             }
-
+            if (aux.getNext() == null){
+                newNode.setPrevious(aux);
+            }else{
+                aux.getNext().setPrevious(newNode);
+                newNode.setNext(aux.getNext());
+                newNode.setPrevious(aux);
+            }
+            aux.setNext(newNode);
         }
     }
 
