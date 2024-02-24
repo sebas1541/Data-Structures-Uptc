@@ -232,6 +232,7 @@ public class MyList<T> implements List<T> {
             for (int i = 0; i < index - 1; i++) {
                 aux = aux.getNext();
             }
+
             if (aux.getNext() == null){
                 newNode.setPrevious(aux);
             }else{
@@ -244,8 +245,31 @@ public class MyList<T> implements List<T> {
     }
 
     @Override
-    public T remove(int index) {
-        return null;
+    public T remove(int index) throws IndexOutOfBoundsException {
+        if (index < 0 || index >= size()) throw new IndexOutOfBoundsException();
+
+        if (index == 0){
+            Node<T> aux = head;
+            if (head != null){
+                head = head.getNext();
+                if (head != null){
+                    head.setPrevious(null);
+                }
+            }return aux.getData();
+        }else{
+            Node<T> aux = head;
+            for (int i = 0; i < index ; i++) {
+                aux = aux.getNext();
+            }
+
+            if (aux.getNext() != null){
+                aux.getPrevious().setNext(aux.getNext());
+                aux.getNext().setPrevious(aux.getPrevious());
+            }else{
+                aux.getPrevious().setNext(null);
+            }
+            return aux.getData();
+        }
     }
 
     @Override
