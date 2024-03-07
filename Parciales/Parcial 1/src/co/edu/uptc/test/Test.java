@@ -10,3 +10,4 @@ public class Test {
         System.out.println(addition2.add());
     }
 }
+
