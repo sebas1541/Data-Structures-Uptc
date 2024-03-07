@@ -18,7 +18,6 @@ public class MyPriorityQueue <T> {
     }
     public T poll(){
         T data = null;
-
         for (MyQueue<T> queue: queues){
             if (!queue.isEmpty()){
                 data = queue.poll();
@@ -30,7 +29,6 @@ public class MyPriorityQueue <T> {
 
     public T peek(){
         T data = null;
-
         for (MyQueue<T> queue: queues){
             if (!queue.isEmpty()){
                 data = queue.peek();

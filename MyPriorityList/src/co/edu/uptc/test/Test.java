@@ -17,8 +17,5 @@ public class Test {
         System.out.println(list.peek());
         System.out.println(list.isEmpty());
 
-
-
-
     }
 }

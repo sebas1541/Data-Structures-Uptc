@@ -174,7 +174,7 @@ public class MyList<T> implements List<T> {
     public boolean addAll(int index, Collection<? extends T> c) {
         boolean modified = false;
         for (T elem : c) {
-            this.add(index++, elem); // Assuming add(int index, T element) method is implemented
+            this.add(index++, elem);
             modified = true;
         }
         return modified;
@@ -365,7 +365,7 @@ public class MyList<T> implements List<T> {
     public MyList<T> subList(int fromIndex, int toIndex) {
         MyList<T> sublist = new MyList<T>();
         for (int i = fromIndex; i < toIndex; i++) {
-            sublist.add(this.get(i)); // Assuming get(int index) method is implemented
+            sublist.add(this.get(i));
         }
         return sublist;
     }
