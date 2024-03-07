@@ -21,7 +21,7 @@ And many more.
 
 Clone the repository to your local machine:
 
-git clone https://github.com/YOUR-USERNAME/Data-Structures-Optic.git
+git clone https://github.com/sebas1541/Data-Structures-Uptc.git
 
 Navigate to the cloned directory:
 
@@ -39,15 +39,9 @@ Contributions to the Data-Structures-Optic repository are welcome. Please read [
 
 - **Sebastián Cañón Castellanos** - [sebas1541](https://github.com/sebas1541)
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
-
 ## Acknowledgments
 
-- Hat tip to anyone whose code was used
-- Inspiration
-- etc
+- Jorge Gabriel Hoyos Pineda Lectures at UPTC 2024 - 1.
 
 ## Additional Notes
 
