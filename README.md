@@ -31,10 +31,6 @@ Check out the individual folders for specific instructions on compiling and runn
 
 Each data structure has its own directory with source files. To use a data structure in your project, include the relevant files in your project directory and follow the initialization and usage patterns as documented in the code comments.
 
-## Contributing
-
-Contributions to the Data-Structures-Optic repository are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
-
 ## Authors
 
 - **Sebastián Cañón Castellanos** - [sebas1541](https://github.com/sebas1541)
