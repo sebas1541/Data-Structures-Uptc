@@ -1,4 +1,4 @@
-# Data-Structures-Optic
+# Data-Structures-Uptc
 
 A comprehensive collection of data structures implemented in Java.
 
