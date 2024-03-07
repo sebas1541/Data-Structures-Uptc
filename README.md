@@ -41,7 +41,7 @@ Contributions to the Data-Structures-Optic repository are welcome. Please read [
 
 ## Acknowledgments
 
-- Jorge Gabriel Hoyos Pineda Lectures at UPTC 2024 - 1.
+- Jorge Gabriel Hoyos Pineda Lectures at UPTC 2024 - 1
 
 ## Additional Notes
 
