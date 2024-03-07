@@ -13,7 +13,7 @@ public class MyPriorityQueue <T> {
     }
 
     public void push(T t, int priority){
-        if (priority < 0 || priority > queues.length) throw new IndexOutOfBoundsException();
+        if (priority < 0 || priority >= queues.length) throw new IndexOutOfBoundsException();
         queues[priority].push(t);
     }
     public T poll(){
@@ -39,16 +39,10 @@ public class MyPriorityQueue <T> {
     }
 
     public Boolean isEmpty(){
-        Boolean isEmpty = false;
-        for (MyQueue<T> queue: queues){
-            if (queue.isEmpty()){
-                isEmpty = true;
-            }else {
-                isEmpty = false;
-                break;
-            }
+        for (MyQueue<T> queue : queues){
+            if (!queue.isEmpty()) return false;
         }
-        return isEmpty;
+        return true;
     }
 
     @Override
