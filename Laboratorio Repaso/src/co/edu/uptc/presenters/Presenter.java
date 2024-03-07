@@ -132,7 +132,7 @@ public class Presenter {
     }
 
     /**
-     * Clase utilitaria para imprimor productos
+     * Método utilitario para imprimir productos
      * Se usan cadenas de formato dependiendo si es
      * entero, string o double
      * @param product Es el producto para formatear.

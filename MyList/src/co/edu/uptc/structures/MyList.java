@@ -26,8 +26,7 @@ public class MyList<T> implements List<T> {
         while (aux != null){
             count++;
             aux = aux.getNext();
-        }
-        return count;
+        }return count;
     }
 
     @Override
@@ -38,14 +37,8 @@ public class MyList<T> implements List<T> {
     @Override
     public boolean contains(Object o) throws ClassCastException, NullPointerException{
 
-        if (o == null){
-            throw new NullPointerException();
-        }
-
-        if (!isInstanceOf(o.getClass(), head.getData())){
-            throw new ClassCastException("El tipo de la clase no es igual");
-        }
-
+        if (o == null) throw new NullPointerException();
+        if (!isInstanceOf(o.getClass(), head.getData())) throw new ClassCastException();
 
         Node aux = head;
         while(aux != null && aux.getNext() != null){
@@ -79,29 +72,32 @@ public class MyList<T> implements List<T> {
 
     @Override
     public Object[] toArray() {
-        Object[]currenArray = new Object[size()];
-        int i = 0;
-        for (Node<T> aux = head; aux != null; aux = aux.getNext()){
-            currenArray[i++] = aux.getData();
+        Object[]arr = new Object[size()];
+
+        int index = 0;
+        for (Node<T> aux = head; aux != null; head = head.getNext()) {
+            arr[index++] = head.getData();
         }
-        return currenArray;
+        return arr;
+    }
+
+
+
+    @Override
+    public <E> E[] toArray(E[] a) {
+        Iterator<T> it = iterator();
+        for (int i = 0; i < a.length; i++) {
+            while (it.hasNext()) {
+                a[i] = (E) it.next();
+            }
+        }
+        return a;
     }
 
     @Override
-    public <T1> T1[] toArray(T1[] a) {
-        return null;
-    }
+    public boolean add(T t) throws NullPointerException{
 
-    @Override
-    public boolean add(T t) throws NullPointerException, ClassCastException {
 
-        if (!isInstanceOf(t.getClass(), head.getData())){
-            throw new ClassCastException();
-        }
-
-        if (t == null){
-            throw new NullPointerException();
-        }
 
         Node<T> newNode = new Node<T>(t);
 
@@ -121,13 +117,11 @@ public class MyList<T> implements List<T> {
     @Override
     public boolean remove(Object o) throws NullPointerException{
 
-        if (o == null){
-            throw new NullPointerException();
-        }
+        if (o == null) throw new NullPointerException();
 
-        if (head == null) {
-            return false;
-        }
+
+        if (head == null) return false;
+
         Node<T> current = head;
 
         if (head.getData().equals(o)) {
@@ -157,27 +151,60 @@ public class MyList<T> implements List<T> {
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        return false;
+        for (Object elem : c) {
+            if (!this.contains(elem)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
     public boolean addAll(Collection<? extends T> c) {
-        return false;
+        boolean modified = false;
+        for (T elem : c) {
+            if (this.add(elem)) {
+                modified = true;
+            }
+        }
+        return modified;
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends T> c) {
-        return false;
+        boolean modified = false;
+        for (T elem : c) {
+            this.add(index++, elem);
+            modified = true;
+        }
+        return modified;
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
-        return false;
+        boolean modified = false;
+        for (Object elem : c) {
+            while (this.contains(elem)) {
+                this.remove(elem);
+                modified = true;
+            }
+        }
+        return modified;
     }
 
     @Override
     public boolean retainAll(Collection<?> c) {
-        return false;
+        boolean modified = false;
+
+        MyList<T> copy = new MyList<T>();
+        copy.addAll(this);
+        for (T elem : copy) {
+            if (!c.contains(elem)) {
+                this.remove(elem);
+                modified = true;
+            }
+        }
+        return modified;
     }
 
     @Override
@@ -197,7 +224,6 @@ public class MyList<T> implements List<T> {
         return aux.getData();
     }
 
-
     @Override
     public T set(int index, T element) {
         Node<T> aux = head;
@@ -209,6 +235,7 @@ public class MyList<T> implements List<T> {
             aux = aux.getNext();
         }
 
+
         T auxVal = aux.getData();
         aux.setData(element);
         return auxVal;
@@ -216,8 +243,12 @@ public class MyList<T> implements List<T> {
 
     @Override
     public void add(int index, T element) throws NullPointerException, IndexOutOfBoundsException{
-        if (element == null) throw new NullPointerException();
-        if (index < 0 || index >= size()) throw new IndexOutOfBoundsException();
+        if (element == null){
+            throw new NullPointerException();
+        }
+        if (index < 0 || index >= size()){
+            throw new IndexOutOfBoundsException();
+        }
 
         Node<T> newNode = new Node<T>(element);
 
@@ -226,9 +257,9 @@ public class MyList<T> implements List<T> {
             if (head != null){
                 head.setPrevious(newNode);
             }
-            head = newNode;
         }else{
             Node<T> aux = head;
+
             for (int i = 0; i < index - 1; i++) {
                 aux = aux.getNext();
             }
@@ -273,28 +304,70 @@ public class MyList<T> implements List<T> {
     }
 
     @Override
-    public int indexOf(Object o) {
-        return 0;
+    public int indexOf(Object o) throws NullPointerException {
+        if (o == null) throw new NullPointerException();
+        int index = -1;
+
+        Node<T> aux = head;
+
+        if (head != null) {
+
+            int lastIndex = size();
+
+            for (int i = 0; i < lastIndex; i++) {
+                if (aux.getData().equals(o)) {
+                    index = i;
+                    break;
+                }
+                aux = aux.getNext();
+
+            }
+        }
+        return index;
     }
 
     @Override
     public int lastIndexOf(Object o) {
-        return 0;
+        if (o == null) throw new NullPointerException();
+        int index = -1;
+
+        Node<T> aux = head;
+
+        if (head != null) {
+
+            int lastIndex = size();
+            for (int i = 0; i < lastIndex; i++) {
+                if (aux.getData().equals(o)) {
+                    index = i;
+                }
+                aux = aux.getNext();
+
+            }
+        }
+        return index;
     }
+
+
 
     @Override
     public ListIterator<T> listIterator() {
+        //No implementar
         return null;
     }
 
     @Override
     public ListIterator<T> listIterator(int index) {
+        //No implementar
         return null;
     }
 
     @Override
-    public List<T> subList(int fromIndex, int toIndex) {
-        return null;
+    public MyList<T> subList(int fromIndex, int toIndex) {
+        MyList<T> sublist = new MyList<T>();
+        for (int i = fromIndex; i < toIndex; i++) {
+            sublist.add(this.get(i));
+        }
+        return sublist;
     }
 
     @Override
@@ -304,52 +377,120 @@ public class MyList<T> implements List<T> {
 
     @Override
     public void sort(Comparator<? super T> c) {
+        //No implementar
         List.super.sort(c);
     }
 
 
     @Override
     public Spliterator<T> spliterator() {
+        //No implementar
         return List.super.spliterator();
     }
 
     @Override
-    public void addFirst(T t) {
-        List.super.addFirst(t);
+    public void addFirst(T t) throws NullPointerException{
+        if (t == null) throw new NullPointerException();
+        Node<T> newNode = new Node<>(t);
+        if (head != null){
+            newNode.setNext(head);
+            head.setPrevious(newNode);
+        }
+        head = newNode;
     }
 
     @Override
-    public void addLast(T t) {
-        List.super.addLast(t);
+    public void addLast(T t) throws NullPointerException {
+        if (t == null) throw new NullPointerException();
+
+        Node<T> newNode = new Node<T>(t);
+
+        if (head != null){
+            Node <T> aux = head;
+
+            while (aux.getNext() != null){
+                aux = aux.getNext();
+            }
+            aux.setNext(newNode);
+            newNode.setPrevious(aux);
+        }else{
+            head = newNode;
+        }
     }
 
     @Override
     public T getFirst() {
-        return List.super.getFirst();
+        return head.getData();
     }
 
     @Override
     public T getLast() {
-        return List.super.getLast();
+        int lastIndex = size() - 1;
+        Node<T> aux = head;
+        for (int i = 0; i < lastIndex; i++) {
+            aux = aux.getNext();
+        }
+        return aux.getData();
     }
 
     @Override
     public T removeFirst() {
-        return List.super.removeFirst();
+
+        if (head == null) throw new NoSuchElementException();
+
+        T data = head.getData();
+        head = head.getNext();
+
+        if (head != null){
+            head.setPrevious(null);
+        }
+        return data;
     }
 
     @Override
     public T removeLast() {
-        return List.super.removeLast();
+        if (head == null) throw new NoSuchElementException();
+
+
+        if (head.getNext() == null) {
+            T data = head.getData();
+            head = null;
+            return data;
+        }
+
+        Node<T> aux = head;
+        while (aux.getNext().getNext() != null) {
+            aux = aux.getNext();
+        }
+
+        T data = aux.getNext().getData();
+        aux.setNext(null);
+        return data;
     }
 
+
     @Override
-    public List<T> reversed() {
-        return List.super.reversed();
+    public MyList<T> reversed() {
+        MyList<T> reversedList = new MyList<T>();
+        Node<T> current = head;
+        while (current != null) {
+
+            Node<T> newNode = new Node<T>(current.getData());
+            if (reversedList.head != null) {
+                newNode.setNext(reversedList.head);
+                reversedList.head = newNode;
+            } else {
+                reversedList.head = newNode;
+            }
+            current = current.getNext();
+        }
+        return reversedList;
     }
+
 
     @Override
     public <T1> T1[] toArray(IntFunction<T1[]> generator) {
+        //No implementar
         return List.super.toArray(generator);
     }
 
@@ -360,17 +501,28 @@ public class MyList<T> implements List<T> {
 
     @Override
     public Stream<T> stream() {
+        //No implementar
         return List.super.stream();
     }
 
     @Override
     public Stream<T> parallelStream() {
+        //No implementar
         return List.super.parallelStream();
     }
 
     @Override
     public void forEach(Consumer<? super T> action) {
+        //No implementar
         List.super.forEach(action);
+    }
+
+
+    @Override
+    public String toString() {
+        return "MyList{" +
+                "head=" + head +
+                '}';
     }
 
     public Node<T> getHead() {
