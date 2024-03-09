@@ -24,4 +24,11 @@ public class MyStack<T> {
     public boolean isEmpty (){
         return myList.isEmpty();
     }
+
+    @Override
+    public String toString() {
+        return "MyStack{" +
+                "myList=" + myList +
+                '}';
+    }
 }

@@ -522,4 +522,11 @@ public class MyList<T> implements List<T> {
     public void setHead(Node<T> head) {
         this.head = head;
     }
+
+    @Override
+    public String toString() {
+        return "MyList{" +
+                "head=" + head +
+                '}';
+    }
 }
