@@ -12,6 +12,7 @@ public class Test {
 
         System.out.println(ad.add());
         System.out.println(ad1.add());
+
     }
 }
 
