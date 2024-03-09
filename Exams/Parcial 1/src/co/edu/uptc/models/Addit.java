@@ -3,11 +3,6 @@ package co.edu.uptc.models;
 import co.edu.uptc.structures.MyQueue;
 import co.edu.uptc.structures.MyStack;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Scanner;
-import java.util.Stack;
-
 public class Addit {
     private String numbers;
 
