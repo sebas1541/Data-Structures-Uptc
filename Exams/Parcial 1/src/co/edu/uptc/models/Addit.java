@@ -13,13 +13,14 @@ public class Addit {
     public String add(){
         String [] nums = this.numbers.split("\\s+");
         MyQueue<Integer> result = new MyQueue<>();
+
         for (String num: nums){
             MyStack<Integer> stack = new MyStack<>();
+
             for (char c: num.toCharArray()){
                 stack.push(Character.getNumericValue(c));
             }
             MyQueue<Integer> newResult = new MyQueue<>();
-
             int carry = 0;
 
             while (!stack.isEmpty() || !result.isEmpty() || carry != 0){
@@ -34,7 +35,6 @@ public class Addit {
                 carry = sum / 10;
 
             }
-
             result = newResult;
         }
 
@@ -44,6 +44,5 @@ public class Addit {
         }
         return sb.toString();
     }
-
 
 }
