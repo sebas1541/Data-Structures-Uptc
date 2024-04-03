@@ -6,7 +6,6 @@ import java.util.Comparator;
 
 public class Test {
     public static void main(String[] args) {
-        // Explicitly declare the comparator to avoid any confusion
         Comparator<Integer> comparator = Comparator.naturalOrder();
         MyBinaryTree<Integer> tree = new MyBinaryTree<>(comparator);
 
