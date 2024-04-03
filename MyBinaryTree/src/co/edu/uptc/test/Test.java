@@ -2,23 +2,17 @@ package co.edu.uptc.test;
 
 import co.edu.uptc.structures.MyBinaryTree;
 
-import java.util.Comparator;
-
 public class Test {
     public static void main(String[] args) {
-        Comparator<Integer> comparator = Comparator.naturalOrder();
-        MyBinaryTree<Integer> tree = new MyBinaryTree<>(comparator);
 
-        System.out.println("Revisnado método isEmpty(): " + tree.isEmpty());
+        MyBinaryTree<String> tree = new MyBinaryTree<>(String::compareTo);
+        tree.insert("Hola");
+        tree.insert("Buenos dias");
+        tree.insert("Hasta luego");
 
-        tree.insert(10);
-        tree.insert(5);
-        tree.insert(15);
-        tree.insert(2);
-        tree.insert(7);
-        tree.insert(12);
-        tree.insert(17);
 
-        System.out.println("Revisnado método isEmpty(): " + tree.isEmpty());
+        System.out.println(tree.toString());
+        System.out.println(tree.search("Hola"));
+
     }
 }
