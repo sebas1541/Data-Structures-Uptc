@@ -15,24 +15,55 @@ public class MyBinaryTree<T> {
     }
 
     public void insert(T data) {
-        root = insertRec(root, data);
+        Node<T> newNode = new Node<>(data);
+        if (root == null) {
+            root = newNode;
+        } else {
+            Node<T> aux = root;
+            Node<T> parent;
+            while (true) {
+                parent = aux;
+                if (comparator.compare(data, aux.getData()) < 0) {
+                    aux = aux.getLeft();
+                    if (aux == null) {
+                        parent.setLeft(newNode);
+                        return;
+                    }
+                } else if (comparator.compare(data, aux.getData()) > 0) {
+                    aux = aux.getRight();
+                    if (aux == null) {
+                        parent.setRight(newNode);
+                        return;
+                    }
+                } else {
+                    return;
+                }
+            }
+        }
     }
 
-    private Node<T> insertRec(Node<T> current, T data) {
-
-        if (current == null) {
-            return new Node<>(data);
+    public T search(T data){
+        Node<T> aux = root;
+        while (aux != null){
+            if (comparator.compare(data, aux.getData()) == 0){
+                return aux.getData();
+            } else if (comparator.compare(data, aux.getData()) < 0){
+                aux = aux.getLeft();
+            } else {
+                aux = aux.getRight();
+            }
         }
+        return null;
+    }
 
-        if (comparator.compare(data, current.getData()) < 0) {
-            current.setLeft(insertRec(current.getLeft(), data));
-        } else if (comparator.compare(data, current.getData()) > 0) {
-            current.setRight(insertRec(current.getRight(), data));
-        } else {
 
-            return current;
-        }
 
-        return current;
+
+    @Override
+    public String toString() {
+        return "MyBinaryTree{" +
+                "root=" + root +
+                ", comparator=" + comparator +
+                '}';
     }
 }
