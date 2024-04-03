@@ -13,7 +13,7 @@ This repository is an educational resource for students and programmers alike to
 - **MyList**: Custom list implementation of List interface.
 - **MyQueue**: Custom queue implementation with basic functionalities.
 - **MyPriorityQueue**: Custom priority queue implementation.
-- **Laboratorio Repaso**: Lab practice code snippets and examples.
+- **MyBinaryTree**: Implementation of Search Binary Tree using Comparator Interface.
 
 And many more.
 
