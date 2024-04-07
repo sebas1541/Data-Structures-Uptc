@@ -1,6 +1,8 @@
 package co.edu.uptc.models;
 
-public class Student {
+import java.util.Comparator;
+
+public class Student{
     private String name;
     private int id;
     private int age;
@@ -34,4 +36,6 @@ public class Student {
     public void setAge(int age) {
         this.age = age;
     }
+
+
 }
