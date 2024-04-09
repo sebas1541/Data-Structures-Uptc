@@ -33,7 +33,7 @@ public class Presenter {
     private void mainMenu() {
         int option;
         do {
-            view.showMessage("Menú Principal de la Aplicación de Traducción\n1. Traducir del español al inglés\n2. Traducir del español al francés\n3. Agregar traducción al diccionario español-inglés\n4. Agregar traducción al diccionario español-francés\n5. Mostrar tamaños de los diccionarios\n6. Salir");
+            view.showMessage("Menú Principal\n1. Traducir del español al inglés\n2. Traducir del español al francés\n3. Agregar traducción al diccionario español-inglés\n4. Agregar traducción al diccionario español-francés\n5. Mostrar tamaños de los diccionarios\n6. Mostrar contenido de los diccionarios\n7. Salir");
             option = view.readInt("Elija una opción: ");
             switch (option) {
                 case 1:
@@ -52,13 +52,25 @@ public class Presenter {
                     showDictionarySizes();
                     break;
                 case 6:
+                    displayDictionaries();
+                    break;
+                case 7:
                     view.showMessage("Saliendo de la aplicación");
                     break;
                 default:
                     view.showMessage("Por favor, intente de nuevo");
             }
-        } while (option != 6);
+        } while (option != 7);
     }
+
+
+    public void displayDictionaries() {
+        view.showMessage("Contenido del Diccionario Español-Inglés:");
+        spanishEnglishDictionary.displayDictionaryContents();
+        view.showMessage("Contenido del Diccionario Español-Francés:");
+        spanishFrenchDictionary.displayDictionaryContents();
+    }
+
 
     private void translateToEnglish() {
         String spanishWord = view.readString("Ingrese la palabra en español para traducir al inglés: ");
