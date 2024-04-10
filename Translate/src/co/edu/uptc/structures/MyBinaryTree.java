@@ -1,5 +1,7 @@
 package co.edu.uptc.structures;
 
+import co.edu.uptc.exceptions.NodeNotFoundException;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -97,6 +99,54 @@ public class MyBinaryTree<T> {
     }
 
 
+    public void delete(T data) throws NodeNotFoundException {
+        root = delete(root, data);
+    }
+
+    protected Node<T> delete(Node<T> node, T data) {
+        if (node == null) {
+            throw new NodeNotFoundException("Sin nodos");
+
+        } else if (comparator.compare(data, node.getData()) < 0) {
+            Node<T> leftChild = delete(node.getLeft(), data);
+            node.setLeft(leftChild);
+
+        } else if (comparator.compare(data, node.getData()) > 0) {
+            Node<T> rightChild = delete(node.getRight(), data);
+            node.setRight(rightChild);
+
+        } else {
+
+            if (node.getLeft() == null && node.getRight() == null) {
+                return null;
+            }
+
+            else if (node.getLeft() == null) {
+                return node.getRight();
+
+            } else if (node.getRight() == null) {
+                return node.getLeft();
+            }
+
+            else {
+                Node<T> replacement = findReplacement(node);
+                node.setData(replacement.getData());
+                node.setRight(delete(node.getRight(), replacement.getData()));
+            }
+        }
+        return node;
+    }
+
+    private Node<T> findReplacement(Node<T> node) {
+
+        Node<T> replacement = node.getRight();
+
+        while (replacement.getLeft() != null) {
+            replacement = replacement.getLeft();
+        }
+
+        return replacement;
+    }
 
 
 
@@ -106,4 +156,23 @@ public class MyBinaryTree<T> {
 
 
 
+
+
+    private Node<T> replace(Node<T> node) {
+        Node<T> parent = node;
+        Node<T> replacement = node.getLeft();
+
+        while (replacement.getRight() != null) {
+            parent = replacement;
+            replacement = replacement.getRight();
+        }
+
+        if (parent != node) {
+            parent.setRight(replacement.getLeft());
+        } else {
+            node.setLeft(replacement.getLeft());
+        }
+
+        return replacement;
+    }
 }
