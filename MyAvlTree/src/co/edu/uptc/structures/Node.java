@@ -4,10 +4,13 @@ public class Node<T> {
     private T data;
     private Node<T> left;
     private Node<T> right;
-    private int balanceFactor = 0;
+    private int balanceFactor;
 
     public Node(T data) {
         this.data = data;
+        this.left = null;
+        this.right = null;
+        this.balanceFactor = 0;
     }
 
     public T getData() {
@@ -43,8 +46,8 @@ public class Node<T> {
     }
 
     @Override
-    public String   toString() {
-        return "Node{" +
+    public String toString() {
+        return "AvlNode{" +
                 "data=" + data +
                 ", left=" + left +
                 ", right=" + right +

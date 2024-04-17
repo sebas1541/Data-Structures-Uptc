@@ -1,17 +1,12 @@
 package co.edu.uptc.structures;
 
-import co.edu.uptc.exceptions.NodeNotFoundException;
-
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 
 public class MyAvlTree<T> {
-
     private Node<T> root;
-    private Comparator<T> comparator;
+    private IAvlComparator<T> comparator;
 
-    public MyAvlTree(Comparator<T> comparator) {
+    public MyAvlTree(IAvlComparator<T> comparator) {
         this.comparator = comparator;
     }
 
@@ -19,160 +14,165 @@ public class MyAvlTree<T> {
         return root == null;
     }
 
-    public void insert(T value) {
-        root = insert(root, value);
+    public void insert(T value) throws Exception {
+        root = insert(root, value, new Logical(false));
     }
 
-    private Node<T> insert(Node<T> n, T value) {
-        if (n == null) {
+    private Node<T> insert(Node<T> node, T value, Logical heightIncreased) throws Exception {
+        if (node == null) {
+            heightIncreased.setValue(true);
             return new Node<>(value);
         }
 
-        int compareResult = comparator.compare(value, n.getData());
+        int compareResult = comparator.isLessThan(value, node.getData()) ? -1 :
+                comparator.isGreaterThan(value, node.getData()) ? 1 : 0;
+
         if (compareResult < 0) {
-            n.setLeft(insert(n.getLeft(), value));
+            Node<T> left = insert(node.getLeft(), value, heightIncreased);
+            node.setLeft(left);
+
+            if (heightIncreased.getValue()) {
+                switch (node.getBalanceFactor()) {
+                    case 1:
+                        node.setBalanceFactor(0);
+                        heightIncreased.setValue(false);
+                        break;
+                    case 0:
+                        node.setBalanceFactor(-1);
+                        break;
+                    case -1:
+                        node = balanceLeft(node);
+                        heightIncreased.setValue(false);
+                        break;
+                }
+            }
         } else if (compareResult > 0) {
-            n.setRight(insert(n.getRight(), value));
-        }
-        return balance(n);
-    }
+            Node<T> right = insert(node.getRight(), value, heightIncreased);
+            node.setRight(right);
 
-    private Node<T> balance(Node<T> n) {
-        if (n == null) return null;
-
-        updateBalance(n);
-
-        if (n.getBalanceFactor() == -2) {
-            if (height(n.getLeft().getLeft()) >= height(n.getLeft().getRight())) {
-                return rotateRight(n);
-            } else {
-                return rotateLeftRight(n);
+            if (heightIncreased.getValue()) {
+                switch (node.getBalanceFactor()) {
+                    case -1:
+                        node.setBalanceFactor(0);
+                        heightIncreased.setValue(false);
+                        break;
+                    case 0:
+                        node.setBalanceFactor(1);
+                        break;
+                    case 1:
+                        node = balanceRight(node);
+                        heightIncreased.setValue(false);
+                        break;
+                }
             }
-        } else if (n.getBalanceFactor() == 2) {
-            if (height(n.getRight().getRight()) >= height(n.getRight().getLeft())) {
-                return rotateLeft(n);
-            } else {
-                return rotateRightLeft(n);
-            }
+        } else {
+            throw new Exception("No puede haber claves repetidas");
         }
-        return n;
+        return node;
     }
 
-    private void updateBalance(Node<T> n) {
-        int leftHeight = height(n.getLeft());
-        int rightHeight = height(n.getRight());
-        n.setBalanceFactor(rightHeight - leftHeight);
+    private Node<T> balanceLeft(Node<T> node) {
+        Node<T> left = node.getLeft();
+        if (left.getBalanceFactor() == -1) {
+            node.setBalanceFactor(0);
+            left.setBalanceFactor(0);
+            return rotateRight(node);
+        } else { // Left-Right Case
+            Node<T> leftRight = left.getRight();
+            switch (leftRight.getBalanceFactor()) {
+                case -1:
+                    node.setBalanceFactor(1);
+                    left.setBalanceFactor(0);
+                    break;
+                case 1:
+                    node.setBalanceFactor(0);
+                    left.setBalanceFactor(-1);
+                    break;
+                case 0:
+                    node.setBalanceFactor(0);
+                    left.setBalanceFactor(0);
+                    break;
+            }
+            leftRight.setBalanceFactor(0);
+            node.setLeft(rotateLeft(left));
+            return rotateRight(node);
+        }
     }
 
-    private int height(Node<T> n) {
-        if (n == null) return -1;
-        return 1 + Math.max(height(n.getLeft()), height(n.getRight()));
+    private Node<T> balanceRight(Node<T> node) {
+        Node<T> right = node.getRight();
+        if (right.getBalanceFactor() == 1) {
+            node.setBalanceFactor(0);
+            right.setBalanceFactor(0);
+            return rotateLeft(node);
+        } else { // Right-Left Case
+            Node<T> rightLeft = right.getLeft();
+            switch (rightLeft.getBalanceFactor()) {
+                case 1:
+                    node.setBalanceFactor(-1);
+                    right.setBalanceFactor(0);
+                    break;
+                case -1:
+                    node.setBalanceFactor(0);
+                    right.setBalanceFactor(1);
+                    break;
+                case 0:
+                    node.setBalanceFactor(0);
+                    right.setBalanceFactor(0);
+                    break;
+            }
+            rightLeft.setBalanceFactor(0);
+            node.setRight(rotateRight(right));
+            return rotateLeft(node);
+        }
     }
 
-    private Node<T> rotateRight(Node<T> n2) {
-        Node<T> n1 = n2.getLeft();
-        n2.setLeft(n1.getRight());
-        n1.setRight(n2);
-        updateBalance(n2);
-        updateBalance(n1);
-        return n1;
+    private Node<T> rotateRight(Node<T> node) {
+        Node<T> left = node.getLeft();
+        node.setLeft(left.getRight());
+        left.setRight(node);
+        return left;
     }
 
-    private Node<T> rotateLeft(Node<T> n1) {
-        Node<T> n2 = n1.getRight();
-        n1.setRight(n2.getLeft());
-        n2.setLeft(n1);
-        updateBalance(n1);
-        updateBalance(n2);
-        return n2;
+    private Node<T> rotateLeft(Node<T> node) {
+        Node<T> right = node.getRight();
+        node.setRight(right.getLeft());
+        right.setLeft(node);
+        return right;
     }
 
-    private Node<T> rotateLeftRight(Node<T> n) {
-        n.setLeft(rotateLeft(n.getLeft()));
-        return rotateRight(n);
-    }
-
-    private Node<T> rotateRightLeft(Node<T> n) {
-        n.setRight(rotateRight(n.getRight()));
-        return rotateLeft(n);
-    }
-
-    public List<T> inOrder() {
-        List<T> result = new ArrayList<>();
+    public ArrayList<T> inOrder() {
+        ArrayList<T> result = new ArrayList<>();
         inOrder(root, result);
         return result;
     }
 
-    private void inOrder(Node<T> n, List<T> result) {
-        if (n != null) {
-            inOrder(n.getLeft(), result);
-            result.add(n.getData());
-            inOrder(n.getRight(), result);
+    private void inOrder(Node<T> node, ArrayList<T> list) {
+        if (node != null) {
+            inOrder(node.getLeft(), list);
+            list.add(node.getData());
+            inOrder(node.getRight(), list);
         }
     }
 
-    public List<T> preOrder() {
-        List<T> result = new ArrayList<>();
+    public ArrayList<T> preOrder() {
+        ArrayList<T> result = new ArrayList<>();
         preOrder(root, result);
         return result;
     }
 
-    private void preOrder(Node<T> n, List<T> result) {
-        if (n != null) {
-            result.add(n.getData());
-            preOrder(n.getLeft(), result);
-            preOrder(n.getRight(), result);
+    private void preOrder(Node<T> node, ArrayList<T> list) {
+        if (node != null) {
+            list.add(node.getData());
+            preOrder(node.getLeft(), list);
+            preOrder(node.getRight(), list);
         }
-    }
-
-    public List<T> postOrder() {
-        List<T> result = new ArrayList<>();
-        postOrder(root, result);
-        return result;
-    }
-
-    private void postOrder(Node<T> n, List<T> result) {
-        if (n != null) {
-            postOrder(n.getLeft(), result);
-            postOrder(n.getRight(), result);
-            result.add(n.getData());
-        }
-    }
-
-    public void delete(T data) throws NodeNotFoundException {
-        root = delete(root, data);
-    }
-
-    protected Node<T> delete(Node<T> n, T data) {
-        if (n == null) {
-            throw new NodeNotFoundException("Sin nodos");
-        } else if (comparator.compare(data, n.getData()) < 0) {
-            n.setLeft(delete(n.getLeft(), data));
-        } else if (comparator.compare(data, n.getData()) > 0) {
-            n.setRight(delete(n.getRight(), data));
-        } else {
-            if (n.getLeft() == null) return n.getRight();
-            else if (n.getRight() == null) return n.getLeft();
-            else {
-                Node<T> n1 = findReplacement(n);
-                n.setData(n1.getData());
-                n.setRight(delete(n.getRight(), n1.getData()));
-            }
-        }
-        return n;
-    }
-
-    private Node<T> findReplacement(Node<T> n) {
-        Node<T> replacement = n.getRight();
-        while (replacement.getLeft() != null) {
-            replacement = replacement.getLeft();
-        }
-        return replacement;
     }
 
     @Override
     public String toString() {
         return "MyAvlTree{" +
-                "root=" + root;
+                "root=" + root +
+                '}';
     }
 }
