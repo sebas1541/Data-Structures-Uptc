@@ -1,39 +1,39 @@
 package co.edu.uptc.structures;
 
-public class Node<T> {
+public class AvlNode<T> {
     private T data;
-    private Node<T> left;
-    private Node<T> right;
+    private AvlNode<T> left;
+    private AvlNode<T> right;
     private int balanceFactor;
 
-    public Node(T data) {
+    public AvlNode(T data) {
         this.data = data;
         this.left = null;
         this.right = null;
         this.balanceFactor = 0;
     }
 
-    public T getData() {
-        return data;
+    public T getValue() {
+        return this.data;  // Assuming the value is stored in a member named 'data'
     }
 
-    public void setData(T data) {
+    public void setValue(T data) {
         this.data = data;
     }
 
-    public Node<T> getLeft() {
+    public AvlNode<T> getLeft() {
         return left;
     }
 
-    public void setLeft(Node<T> left) {
+    public void setLeft(AvlNode<T> left) {
         this.left = left;
     }
 
-    public Node<T> getRight() {
+    public AvlNode<T> getRight() {
         return right;
     }
 
-    public void setRight(Node<T> right) {
+    public void setRight(AvlNode<T> right) {
         this.right = right;
     }
 
