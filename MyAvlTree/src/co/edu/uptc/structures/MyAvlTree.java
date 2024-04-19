@@ -7,123 +7,70 @@ public class MyAvlTree<T> {
     private IAvlComparator<T> comparator;
 
     public MyAvlTree(IAvlComparator<T> comparator) {
+        this.root = null;
         this.comparator = comparator;
     }
 
-    public boolean isEmpty() {
-        return root == null;
+    public Node<T> getRoot() {
+        return root;
     }
 
     public void insert(T value) throws Exception {
-        root = insert(root, value, new Logical(false));
+        Logical heightIncreased = new Logical(false);
+        root = insert(root, value, heightIncreased);
     }
 
     private Node<T> insert(Node<T> node, T value, Logical heightIncreased) throws Exception {
         if (node == null) {
-            heightIncreased.setValue(true);
-            return new Node<>(value);
+            node = new Node<>(value);
+            heightIncreased.setLogical(true);
+            return node;
         }
 
-        int compareResult = comparator.isLessThan(value, node.getData()) ? -1 :
-                comparator.isGreaterThan(value, node.getData()) ? 1 : 0;
-
-        if (compareResult < 0) {
+        if (comparator.isLessThan(value, node.getValue())) {
             Node<T> left = insert(node.getLeft(), value, heightIncreased);
             node.setLeft(left);
-
             if (heightIncreased.getValue()) {
                 switch (node.getBalanceFactor()) {
                     case 1:
                         node.setBalanceFactor(0);
-                        heightIncreased.setValue(false);
+                        heightIncreased.setLogical(false);
                         break;
                     case 0:
                         node.setBalanceFactor(-1);
                         break;
                     case -1:
-                        node = balanceLeft(node);
-                        heightIncreased.setValue(false);
-                        break;
+                        return rotateForInsert(node, heightIncreased);
                 }
             }
-        } else if (compareResult > 0) {
+        } else if (comparator.isGreaterThan(value, node.getValue())) {
             Node<T> right = insert(node.getRight(), value, heightIncreased);
             node.setRight(right);
-
             if (heightIncreased.getValue()) {
                 switch (node.getBalanceFactor()) {
                     case -1:
                         node.setBalanceFactor(0);
-                        heightIncreased.setValue(false);
+                        heightIncreased.setLogical(false);
                         break;
                     case 0:
                         node.setBalanceFactor(1);
                         break;
                     case 1:
-                        node = balanceRight(node);
-                        heightIncreased.setValue(false);
-                        break;
+                        return rotateForInsert(node, heightIncreased);
                 }
             }
         } else {
-            throw new Exception("No puede haber claves repetidas");
+            throw new Exception("Llaves duplicdas no permitidas");
         }
         return node;
     }
 
-    private Node<T> balanceLeft(Node<T> node) {
-        Node<T> left = node.getLeft();
-        if (left.getBalanceFactor() == -1) {
-            node.setBalanceFactor(0);
-            left.setBalanceFactor(0);
-            return rotateRight(node);
-        } else { // Left-Right Case
-            Node<T> leftRight = left.getRight();
-            switch (leftRight.getBalanceFactor()) {
-                case -1:
-                    node.setBalanceFactor(1);
-                    left.setBalanceFactor(0);
-                    break;
-                case 1:
-                    node.setBalanceFactor(0);
-                    left.setBalanceFactor(-1);
-                    break;
-                case 0:
-                    node.setBalanceFactor(0);
-                    left.setBalanceFactor(0);
-                    break;
-            }
-            leftRight.setBalanceFactor(0);
-            node.setLeft(rotateLeft(left));
-            return rotateRight(node);
-        }
-    }
-
-    private Node<T> balanceRight(Node<T> node) {
-        Node<T> right = node.getRight();
-        if (right.getBalanceFactor() == 1) {
-            node.setBalanceFactor(0);
-            right.setBalanceFactor(0);
-            return rotateLeft(node);
-        } else { // Right-Left Case
-            Node<T> rightLeft = right.getLeft();
-            switch (rightLeft.getBalanceFactor()) {
-                case 1:
-                    node.setBalanceFactor(-1);
-                    right.setBalanceFactor(0);
-                    break;
-                case -1:
-                    node.setBalanceFactor(0);
-                    right.setBalanceFactor(1);
-                    break;
-                case 0:
-                    node.setBalanceFactor(0);
-                    right.setBalanceFactor(0);
-                    break;
-            }
-            rightLeft.setBalanceFactor(0);
-            node.setRight(rotateRight(right));
-            return rotateLeft(node);
+    private Node<T> rotateForInsert(Node<T> node, Logical heightIncreased) {
+        heightIncreased.setLogical(false);
+        if (node.getBalanceFactor() == -1) {
+            return node.getLeft().getBalanceFactor() == -1 ? rotateRight(node) : doubleRotateLeftRight(node);
+        } else {
+            return node.getRight().getBalanceFactor() == 1 ? rotateLeft(node) : doubleRotateRightLeft(node);
         }
     }
 
@@ -131,6 +78,8 @@ public class MyAvlTree<T> {
         Node<T> left = node.getLeft();
         node.setLeft(left.getRight());
         left.setRight(node);
+        node.setBalanceFactor(0);
+        left.setBalanceFactor(0);
         return left;
     }
 
@@ -138,7 +87,79 @@ public class MyAvlTree<T> {
         Node<T> right = node.getRight();
         node.setRight(right.getLeft());
         right.setLeft(node);
+        node.setBalanceFactor(0);
+        right.setBalanceFactor(0);
         return right;
+    }
+
+    private Node<T> doubleRotateLeftRight(Node<T> node) {
+        node.setLeft(rotateLeft(node.getLeft()));
+        return rotateRight(node);
+    }
+
+    private Node<T> doubleRotateRightLeft(Node<T> node) {
+        node.setRight(rotateRight(node.getRight()));
+        return rotateLeft(node);
+    }
+
+    public void delete(T value) throws Exception {
+        Logical heightDecreased = new Logical(false);
+        root = delete(root, value, heightDecreased);
+    }
+
+    private Node<T> delete(Node<T> node, T value, Logical heightDecreased) throws Exception {
+        if (node == null) {
+            throw new Exception("Valor no encontrado");
+        }
+
+        if (comparator.isLessThan(value, node.getValue())) {
+            Node<T> left = delete(node.getLeft(), value, heightDecreased);
+            node.setLeft(left);
+            if (heightDecreased.getValue()) {
+                return balanceAfterDeletion(node, heightDecreased);
+            }
+        } else if (comparator.isGreaterThan(value, node.getValue())) {
+            Node<T> right = delete(node.getRight(), value, heightDecreased);
+            node.setRight(right);
+            if (heightDecreased.getValue()) {
+                return balanceAfterDeletion(node, heightDecreased);
+            }
+        } else {
+            if (node.getLeft() == null || node.getRight() == null) {
+                Node<T> temp = node.getLeft() != null ? node.getLeft() : node.getRight();
+                node = temp;
+                heightDecreased.setLogical(true);
+            } else {
+                Node<T> temp = getMinimumNode(node.getRight());
+                node.setValue(temp.getValue());
+                node.setRight(delete(node.getRight(), temp.getValue(), heightDecreased));
+            }
+        }
+        return node;
+    }
+
+    private Node<T> balanceAfterDeletion(Node<T> node, Logical heightDecreased) {
+        int balance = node.getBalanceFactor();
+        if (balance == 0) {
+            node.setBalanceFactor(balance < 0 ? 1 : -1);
+            heightDecreased.setLogical(false);
+        } else {
+            node.setBalanceFactor(0);
+            if (balance == -1) {
+                return node.getLeft().getBalanceFactor() <= 0 ? rotateRight(node) : doubleRotateLeftRight(node);
+            } else {
+                return node.getRight().getBalanceFactor() >= 0 ? rotateLeft(node) : doubleRotateRightLeft(node);
+            }
+        }
+        return node;
+    }
+
+    private Node<T> getMinimumNode(Node<T> node) {
+        Node<T> current = node;
+        while (current.getLeft() != null) {
+            current = current.getLeft();
+        }
+        return current;
     }
 
     public ArrayList<T> inOrder() {
@@ -150,7 +171,7 @@ public class MyAvlTree<T> {
     private void inOrder(Node<T> node, ArrayList<T> list) {
         if (node != null) {
             inOrder(node.getLeft(), list);
-            list.add(node.getData());
+            list.add(node.getValue());
             inOrder(node.getRight(), list);
         }
     }
@@ -163,16 +184,9 @@ public class MyAvlTree<T> {
 
     private void preOrder(Node<T> node, ArrayList<T> list) {
         if (node != null) {
-            list.add(node.getData());
+            list.add(node.getValue());
             preOrder(node.getLeft(), list);
             preOrder(node.getRight(), list);
         }
-    }
-
-    @Override
-    public String toString() {
-        return "MyAvlTree{" +
-                "root=" + root +
-                '}';
     }
 }
