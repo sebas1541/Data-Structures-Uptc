@@ -1,24 +1,24 @@
 package co.edu.uptc.structures;
 
 public class Node<T> {
-    private T value;
+    private T data;
     private Node<T> left;
     private Node<T> right;
     private int balanceFactor;
 
-    public Node(T value) {
-        this.value = value;
+    public Node(T data) {
+        this.data = data;
         this.left = null;
         this.right = null;
         this.balanceFactor = 0;
     }
 
-    public T getValue() {
-        return this.value;
+    public T getData() {
+        return data;
     }
 
-    public void setValue(T value) {
-        this.value = value;
+    public void setData(T data) {
+        this.data = data;
     }
 
     public Node<T> getLeft() {
@@ -48,7 +48,7 @@ public class Node<T> {
     @Override
     public String toString() {
         return "AvlNode{" +
-                "data=" + value +
+                "data=" + data +
                 ", left=" + left +
                 ", right=" + right +
                 ", balanceFactor=" + balanceFactor +

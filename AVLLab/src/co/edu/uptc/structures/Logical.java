@@ -8,10 +8,10 @@ public class Logical {
     }
 
     public boolean getValue() {
-        return this.value;
+        return value;
     }
 
-    public void setLogical(boolean value) {
+    public void setValue(boolean value) {
         this.value = value;
     }
 }
