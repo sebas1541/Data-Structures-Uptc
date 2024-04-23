@@ -1,4 +1,8 @@
-public class Main {
+package test;
+
+import models.MyThread;
+
+public class Test {
     public static void main(String[] args) throws InterruptedException {
         long time1 = System.currentTimeMillis();
 

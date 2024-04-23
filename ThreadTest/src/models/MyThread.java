@@ -1,3 +1,5 @@
+package models;
+
 public class MyThread extends Thread {
 
     private int start;
