@@ -20,10 +20,10 @@ public class Presenter {
             insertMunicipalityAndInhabitant("Tunja", "Juan Martinez");
             insertMunicipalityAndInhabitant("Tunja", "Maria Cañón");
             insertMunicipalityAndInhabitant("Duitama", "Carlos Salinas");
-            insertMunicipalityAndInhabitant("Duitama", "Ana Torres");
-            insertMunicipalityAndInhabitant("Sogamoso", "Luis Morales");
-            insertMunicipalityAndInhabitant("Sogamoso", "Carmen Sánchez");
-            insertMunicipalityAndInhabitant("Sogamoso", "Jorge Gómez");
+            insertMunicipalityAndInhabitant("Sogamoso", "Ana Torres");
+            insertMunicipalityAndInhabitant("Duitama", "Luis Morales");
+            insertMunicipalityAndInhabitant("Duitama", "Carmen Sánchez");
+            insertMunicipalityAndInhabitant("Tunja", "Jorge Gómez");
         } catch (Exception e) {
             view.showMessage("Error: " + e.getMessage());
         }
