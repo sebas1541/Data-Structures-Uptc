@@ -27,8 +27,7 @@ public class Main {
             totalPrimes += count;
         }
 
-        long time2 = System.currentTimeMillis() - time1;
-        System.out.println(+ totalPrimes);
-        System.out.println(time2 + " milisegundos");
+        System.out.println(totalPrimes);
+        System.out.println(System.currentTimeMillis() - time1 + " milisegundos");
     }
 }
