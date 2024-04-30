@@ -1,14 +1,13 @@
 package co.edu.uptc.models;
-
-import co.edu.uptc.structures.MyList;
+import co.edu.uptc.structures.MyQueue;
 
 public class Cashier extends Thread {
-    private static int nextId = 1;
+    private static int nextId = 1; // This keeps track of the next cashier ID
     private int cashierId;
-    private MyList<Customer> customers;
+    private MyQueue<Customer> customers;
     private static int totalServed = 0;
 
-    public Cashier(MyList<Customer> customers) {
+    public Cashier(MyQueue<Customer> customers) {
         this.customers = customers;
         synchronized (Cashier.class) {
             this.cashierId = nextId++;
@@ -21,7 +20,7 @@ public class Cashier extends Thread {
             Customer customer = null;
             synchronized (customers) {
                 if (!customers.isEmpty()) {
-                    customer = customers.removeLast();
+                    customer = customers.poll();
                 }
             }
             if (customer != null) {
@@ -43,5 +42,13 @@ public class Cashier extends Thread {
 
     public static synchronized int getTotalServed() {
         return totalServed;
+    }
+
+    public static synchronized void resetTotalServed() {
+        totalServed = 0;
+    }
+
+    public static synchronized void resetNextId() {
+        nextId = 1;
     }
 }

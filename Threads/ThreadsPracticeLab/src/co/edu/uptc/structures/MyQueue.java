@@ -5,6 +5,8 @@ import java.util.List;
 public class MyQueue <T> {
     private List<T> myList;
 
+
+
     public MyQueue() {
         myList = new MyList<>();
     }
@@ -26,6 +28,9 @@ public class MyQueue <T> {
         return myList.isEmpty();
     }
 
+    public int size(){
+        return myList.size();
+    }
 
 
     @Override
