@@ -1,20 +1,22 @@
 package co.edu.uptc.models;
-
-import co.edu.uptc.structures.MyList;
+import co.edu.uptc.structures.MyQueue;
 
 public class QueueFeeder extends Thread {
-    private MyList<Customer> queue;
+    private MyQueue<Customer> queue;
+    private int duration;
 
-    public QueueFeeder(MyList<Customer> queue) {
+
+    public QueueFeeder(MyQueue<Customer> queue, int duration) {
         this.queue = queue;
+        this.duration = duration;
     }
 
     @Override
     public void run() {
-        for (int i = 1; i <= 60; i++) {
+        for (int i = 1; i <= this.duration; i++) {
             Customer customer = new Customer(i);
             synchronized (queue) {
-                queue.add(customer);
+                queue.push(customer);
                 System.out.println("Cliente " + customer.getId() + " entra con tiempo estimado " + customer.getServiceTime() + " minutos");
             }
             try {
