@@ -32,9 +32,9 @@ public class HelloServer {
             }
             System.out.println("fin de la transmision");
             output.writeUTF("datos recibidos exitosamente");
-            
+            socket.close();
         }
-        socket.close();
+
 
 
     }
