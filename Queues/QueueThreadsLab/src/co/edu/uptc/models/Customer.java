@@ -1,19 +1,23 @@
 package co.edu.uptc.models;
 
 public class Customer {
+    private int time;
     private int id;
-    private int serviceTime;
 
     public Customer(int id) {
+        this.time = (int) (Math.random() * 1000);
         this.id = id;
-        this.serviceTime = (int) (Math.random() * 10) + 1;
+    }
+
+    public int getTime() {
+        return time;
     }
 
     public int getId() {
         return id;
     }
 
-    public int getServiceTime() {
-        return serviceTime;
+    public void setId(int id) {
+        this.id = id;
     }
 }

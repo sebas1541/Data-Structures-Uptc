@@ -1,36 +1,34 @@
-package co.edu.uptc.tests;
+package co.edu.uptc.test;
 
 import co.edu.uptc.models.Cashier;
 import co.edu.uptc.models.Customer;
+import co.edu.uptc.models.QueueFeeder;
 import co.edu.uptc.structures.MyList;
 
-public class CashierTest {
-
+public class Test {
     public static void main(String[] args) {
-        // Create a MyList and add some customers
-        MyList<Customer> customers = new MyList<>();
-        customers.add(new Customer(1)); // Random time will be assigned
-        customers.add(new Customer(2)); // Random time will be assigned
+        MyList<Customer> queue = new MyList<>();
+        int numCashiers = 3;
 
-        // Create a Cashier with the list of customers
-        Cashier cashier = new Cashier(customers);
+        QueueFeeder feeder = new QueueFeeder(queue);
+        feeder.start();
 
-        // Start the cashier in a new thread
-        Thread thread = new Thread(cashier);
-        thread.start();
+        Cashier[] cashiers = new Cashier[numCashiers];
+        for (int i = 0; i < numCashiers; i++) {
+            cashiers[i] = new Cashier(queue);
+            cashiers[i].start();
+        }
 
-        // Wait for the cashier to finish processing
         try {
-            thread.join();
+            feeder.join();
+            Thread.sleep(100);
+            for (Cashier cashier : cashiers) {
+                cashier.interrupt();
+                cashier.join();
+            }
         } catch (InterruptedException e) {
-            System.out.println("The main thread was interrupted.");
         }
 
-        // Check if all customers are processed
-        if (cashier.getCustomers().isEmpty()) {
-            System.out.println("Test Passed: All customers processed.");
-        } else {
-            System.out.println("Test Failed: Some customers are not processed.");
-        }
+        System.out.println("Numero de clientes atendidos: " + Cashier.getTotalServed());
     }
 }
