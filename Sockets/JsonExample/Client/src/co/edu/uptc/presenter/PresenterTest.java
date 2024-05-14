@@ -10,12 +10,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClientPresenter {
+public class PresenterTest {
     private ClientConnection connection;
     private View view;
     private Gson gson;
 
-    public ClientPresenter() {
+    public PresenterTest() {
         view = new View();
         connection = new ClientConnection("localhost", 1234);
         gson = new Gson();
@@ -114,6 +114,10 @@ public class ClientPresenter {
                 Request request5 = new Request(option, data5);
                 connection.sendRequest(request5);
                 break;
+            case "6":
+                Request request6 = new Request("6", "");
+                connection.sendRequest(request6);
+                break;
         }
     }
 
@@ -126,6 +130,6 @@ public class ClientPresenter {
     }
 
     public static void main(String[] args) {
-        new ClientPresenter();
+        new PresenterTest();
     }
 }

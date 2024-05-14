@@ -32,7 +32,7 @@ public class ClientThread extends Thread {
             boolean running = true;
             while (running) {
                 String requestJson = input.readUTF();
-                System.out.println("Received request: " + requestJson); // Logging
+                System.out.println("Received request: " + requestJson); // Loggeo de Json
                 Request request = gson.fromJson(requestJson, Request.class);
                 switch (request.getAction()) {
                     case "1":
@@ -65,7 +65,7 @@ public class ClientThread extends Thread {
                 }
             }
         } catch (SocketException e) {
-            // Handle client disconnect
+
             System.out.println("Client disconnected");
         } catch (IOException e) {
             e.printStackTrace();
