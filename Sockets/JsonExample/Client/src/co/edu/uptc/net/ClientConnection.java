@@ -1,5 +1,7 @@
 package co.edu.uptc.net;
 
+import com.google.gson.Gson;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -11,10 +13,12 @@ public class ClientConnection {
     private DataInputStream input;
     private final String serverAddress;
     private final int serverPort;
+    private Gson gson;
 
     public ClientConnection(String serverAddress, int serverPort) {
         this.serverAddress = serverAddress;
         this.serverPort = serverPort;
+        this.gson = new Gson();
     }
 
     public void connect() throws IOException {
@@ -23,12 +27,16 @@ public class ClientConnection {
         input = new DataInputStream(socket.getInputStream());
     }
 
-    public void sendRequest(String request) throws IOException {
-        output.writeUTF(request);
+    public void sendRequest(Request request) throws IOException {
+        String requestJson = gson.toJson(request);
+        System.out.println("Sending request: " + requestJson); // Logging
+        output.writeUTF(requestJson);
     }
 
-    public String receiveResponse() throws IOException {
-        return input.readUTF();
+    public Response receiveResponse() throws IOException {
+        String responseJson = input.readUTF();
+        System.out.println("Received response: " + responseJson); // Logging
+        return gson.fromJson(responseJson, Response.class);
     }
 
     public void close() throws IOException {
