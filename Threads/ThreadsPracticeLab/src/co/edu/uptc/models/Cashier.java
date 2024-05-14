@@ -2,7 +2,7 @@ package co.edu.uptc.models;
 import co.edu.uptc.structures.MyQueue;
 
 public class Cashier extends Thread {
-    private static int nextId = 1; // This keeps track of the next cashier ID
+    private static int nextId = 1;
     private int cashierId;
     private MyQueue<Customer> customers;
     private static int totalServed = 0;
