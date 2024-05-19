@@ -5,37 +5,70 @@ import co.edu.uptc.structures.nonlinear.NodeGraph;
 
 public class GraphTest {
     public static void main(String[] args) {
-        Graph<String> graph = new Graph<>();
+        Graph<String> undirectedGraph = new Graph<>();
+        Graph<String> directedGraph = new Graph<>();
 
         NodeGraph<String> nodeA = new NodeGraph<>("A");
         NodeGraph<String> nodeB = new NodeGraph<>("B");
         NodeGraph<String> nodeC = new NodeGraph<>("C");
+        NodeGraph<String> nodeD = new NodeGraph<>("D");
 
-        graph.addVertex(nodeA);
-        graph.addVertex(nodeB);
-        graph.addVertex(nodeC);
 
-        graph.addEdgeUndirected(nodeA, nodeB);
-        graph.addEdgeDirected(nodeA, nodeC, 2.5);
+        undirectedGraph.addVertex(nodeA);
+        undirectedGraph.addVertex(nodeB);
+        undirectedGraph.addVertex(nodeC);
+        undirectedGraph.addVertex(nodeD);
 
-        System.out.println("Matriz de Adyacencia:");
+        directedGraph.addVertex(nodeA);
+        directedGraph.addVertex(nodeB);
+        directedGraph.addVertex(nodeC);
+        directedGraph.addVertex(nodeD);
+
+        System.out.println("Agregando arista entre A y B en el grafo no dirigido");
+        undirectedGraph.addEdgeUndirected(nodeA, nodeB);
+        printAdjacencyMatrix(undirectedGraph);
+
+        System.out.println("Agregando arista entre B y C en el grafo no dirigido");
+        undirectedGraph.addEdgeUndirected(nodeB, nodeC);
+        printAdjacencyMatrix(undirectedGraph);
+
+        System.out.println("Agregando arista entre C y D en el grafo no dirigido");
+        undirectedGraph.addEdgeUndirected(nodeC, nodeD);
+        printAdjacencyMatrix(undirectedGraph);
+
+        System.out.println("Recorrido en anchura desde el nodo A en el grafo no dirigido");
+        undirectedGraph.breadth(nodeA);
+
+        System.out.println("\nRecorrido en anchura desde el nodo C en el grafo no dirigido");
+        undirectedGraph.breadth(nodeC);
+
+        System.out.println("\nAgregando arista dirigida de A a B en el grafo dirigido");
+        directedGraph.addEdgeDirected(nodeA, nodeB);
+        printAdjacencyMatrix(directedGraph);
+
+        System.out.println("Agregando arista dirigida de B a C en el grafo dirigido");
+        directedGraph.addEdgeDirected(nodeB, nodeC);
+        printAdjacencyMatrix(directedGraph);
+
+        System.out.println("Agregando arista dirigida de C a D en el grafo dirigido");
+        directedGraph.addEdgeDirected(nodeC, nodeD);
+        printAdjacencyMatrix(directedGraph);
+
+        System.out.println("Recorrido en anchura desde el nodo A en el grafo dirigido");
+        directedGraph.breadth(nodeA);
+
+        System.out.println("\nRecorrido en anchura desde el nodo C en el grafo dirigido");
+        directedGraph.breadth(nodeC);
+    }
+
+    private static void printAdjacencyMatrix(Graph<String> graph) {
+        System.out.println("\nMatriz de adyacencia:\n");
         double[][] matrix = graph.getAdjacencyMatrix();
-
         for (double[] row : matrix) {
             for (double value : row) {
                 System.out.print(value + " ");
             }
             System.out.println();
         }
-
-        System.out.println("A y B adyacentes? " + graph.areAdjacent(nodeA, nodeB));
-        System.out.println("A y C adyacentes? " + graph.areAdjacent(nodeA, nodeC));
-
-        graph.removeEdgeUndirected(nodeA, nodeB);
-        System.out.println("A y B adyacentes después de removerlos? " + graph.areAdjacent(nodeA, nodeB));
-
-        System.out.println("Recorrido en anchura del grafo:");
-        graph.breadth(nodeA);
-
     }
 }
