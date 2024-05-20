@@ -55,11 +55,14 @@ public class ClientThread extends Thread {
                     case "editTransaction":
                         handleEditTransaction(request.getData());
                         break;
-                    case "deleteTransaction":
-                        handleDeleteTransaction(request.getData());
-                        break;
                     case "viewTransactions":
                         handleViewTransactions(request.getData());
+                        break;
+                    case "listTransactions":
+                        handleListTransactions(request.getData());
+                        break;
+                    case "deleteTransaction":
+                        handleDeleteTransaction(request.getData());
                         break;
                     case "disconnect":
                         running = false;
@@ -78,6 +81,28 @@ public class ClientThread extends Thread {
                 socket.close();
             } catch (IOException e) {
                 e.printStackTrace();
+            }
+        }
+    }
+
+    private void handleListTransactions(String userId) throws IOException {
+        synchronized (userManager) {
+            User user = userManager.getUserByUsername(userId);
+            if (user != null) {
+                List<Transaction> transactions = user.getTransactions().inOrder();
+                StringBuilder transactionList = new StringBuilder();
+                int counter = 1;
+                for (Transaction transaction : transactions) {
+                    transactionList.append(counter++)
+                            .append(": ")
+                            .append(transaction.toString())
+                            .append("\n");
+                }
+                String responseJson = gson.toJson(new Response("success", transactionList.toString()));
+                output.writeUTF(responseJson);
+            } else {
+                String responseJson = gson.toJson(new Response("error", "User not found"));
+                output.writeUTF(responseJson);
             }
         }
     }
@@ -136,6 +161,7 @@ public class ClientThread extends Thread {
                             transactionData.getDescription(),
                             transactionData.getType()
                     );
+                    System.out.println("Adding transaction: " + transaction); // Log the transaction being added
                     user.addTransaction(transaction);
                     String responseJson = gson.toJson(new Response("success", "Transaction added successfully"));
                     output.writeUTF(responseJson);
@@ -155,16 +181,27 @@ public class ClientThread extends Thread {
             TransactionData transactionData = gson.fromJson(data, TransactionData.class);
             User user = userManager.getUserByUsername(transactionData.getUserId());
             if (user != null) {
-                Transaction transaction = user.getTransactions().search(new Transaction(transactionData.getTransactionId(), 0, null, null, null, null));
+                System.out.println("Editing transaction with ID: " + transactionData.getTransactionId()); // Log the transaction ID being searched
+                Transaction searchTransaction = new Transaction(transactionData.getTransactionId(), 0, null, null, null, null);
+                Transaction transaction = user.getTransactions().search(searchTransaction);
                 if (transaction != null) {
+                    System.out.println("Transaction found: " + transaction); // Log the transaction found
+                    // Ensure transaction dateTime is not null before comparison
+                    if (transactionData.getDateTime() != null) {
+                        transaction.setDateTime(LocalDateTime.parse(transactionData.getDateTime(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+                    } else if (transaction.getDateTime() == null) {
+                        transaction.setDateTime(LocalDateTime.now());
+                    }
+                    // Update the transaction
                     transaction.setAmount(transactionData.getAmount());
                     transaction.setDescription(transactionData.getDescription());
                     transaction.setType(transactionData.getType());
                     transaction.setCategory(transactionData.getCategory());
-                    transaction.setDateTime(LocalDateTime.parse(transactionData.getDateTime(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+
                     String responseJson = gson.toJson(new Response("success", "Transaction updated successfully"));
                     output.writeUTF(responseJson);
                 } else {
+                    System.out.println("Transaction not found: " + searchTransaction); // Log the search transaction details
                     String responseJson = gson.toJson(new Response("error", "Transaction not found"));
                     output.writeUTF(responseJson);
                 }

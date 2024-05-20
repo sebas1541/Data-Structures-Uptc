@@ -1,20 +1,21 @@
 package co.edu.uptc.model;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Transaction implements Comparable<Transaction> {
     private String transactionId;
     private double amount;
     private LocalDateTime dateTime;
-    private String category; // Changed to a string
+    private String category;
     private String description;
     private String type; // "income" or "expense"
 
     public Transaction(String transactionId, double amount, LocalDateTime dateTime, String category, String description, String type) {
         this.transactionId = transactionId;
         this.amount = amount;
-        this.dateTime = dateTime;
-        this.category = category; // Changed to a string
+        this.dateTime = (dateTime == null) ? LocalDateTime.now() : dateTime;
+        this.category = category;
         this.description = description;
         this.type = type;
     }
@@ -41,7 +42,7 @@ public class Transaction implements Comparable<Transaction> {
     }
 
     public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
+        this.dateTime = (dateTime == null) ? LocalDateTime.now() : dateTime;
     }
 
     public String getCategory() {
@@ -70,7 +71,7 @@ public class Transaction implements Comparable<Transaction> {
 
     @Override
     public int compareTo(Transaction other) {
-        return this.dateTime.compareTo(other.dateTime); // Sorting by dateTime
+        return this.dateTime.compareTo(other.dateTime);
     }
 
     @Override
@@ -83,5 +84,18 @@ public class Transaction implements Comparable<Transaction> {
                 ", description='" + description + '\'' +
                 ", type='" + type + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Transaction that = (Transaction) o;
+        return Objects.equals(transactionId, that.transactionId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(transactionId);
     }
 }

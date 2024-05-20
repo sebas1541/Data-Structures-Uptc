@@ -10,21 +10,21 @@ public class TransactionComparator implements IAvlComparator<Transaction> {
 
     @Override
     public boolean isLessThan(Transaction t1, Transaction t2) {
-        return t1.getDateTime().isBefore(t2.getDateTime());
+        return t1.getTransactionId().compareTo(t2.getTransactionId()) < 0;
     }
 
     @Override
     public boolean isLessThanOrEqualTo(Transaction t1, Transaction t2) {
-        return isLessThan(t1, t2) || isEqualTo(t1, t2);
+        return t1.getTransactionId().compareTo(t2.getTransactionId()) <= 0;
     }
 
     @Override
     public boolean isGreaterThan(Transaction t1, Transaction t2) {
-        return t1.getDateTime().isAfter(t2.getDateTime());
+        return t1.getTransactionId().compareTo(t2.getTransactionId()) > 0;
     }
 
     @Override
     public boolean isGreaterThanOrEqualTo(Transaction t1, Transaction t2) {
-        return isGreaterThan(t1, t2) || isEqualTo(t1, t2);
+        return t1.getTransactionId().compareTo(t2.getTransactionId()) >= 0;
     }
 }

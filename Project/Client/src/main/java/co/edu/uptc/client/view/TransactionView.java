@@ -7,6 +7,8 @@ import co.edu.uptc.client.presenter.ClientPresenter;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class TransactionView {
@@ -32,7 +34,7 @@ public class TransactionView {
                     viewTransactions();
                     break;
                 case "3":
-                    editTransaction();
+                    listTransactionsForEdit();
                     break;
                 case "4":
                     deleteTransaction();
@@ -139,11 +141,36 @@ public class TransactionView {
         display();
     }
 
-    private void editTransaction() throws IOException {
+    private void listTransactionsForEdit() throws IOException {
+        String userId = presenter.getLoginView().getCurrentUser().getUsername(); // Ensure this fetches the correct identifier
+        Request request = new Request("listTransactions", userId);
+        presenter.getConnection().sendRequest(request);
+        Response response = presenter.getConnection().receiveResponse();
+
+        if ("success".equals(response.getStatus())) {
+            System.out.println(response.getData()); // Print transaction list
+            editTransaction(response.getData()); // Call editTransaction after listing
+        } else {
+            showMessage("Error: " + response.getData());
+        }
+    }
+
+    private void editTransaction(String transactionsList) throws IOException {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Enter Transaction ID to edit: ");
-        String transactionId = scanner.nextLine();
+        System.out.print("Enter transaction number to edit: ");
+        int transactionNumber = Integer.parseInt(scanner.nextLine());
+
+        // Parse transactions list to map transaction number to transaction ID
+        Map<Integer, String> transactionMap = parseTransactionList(transactionsList);
+
+        // Retrieve transaction ID based on transactionNumber, handle invalid selection
+        if (!transactionMap.containsKey(transactionNumber)) {
+            showMessage("Invalid transaction number. Try again.");
+            display();
+            return;
+        }
+        String transactionId = transactionMap.get(transactionNumber);
 
         System.out.print("Enter new amount: ");
         double amount = Double.parseDouble(scanner.nextLine());
@@ -212,6 +239,20 @@ public class TransactionView {
         Response response = presenter.getConnection().receiveResponse();
         showMessage(response.getData());
         display();
+    }
+
+    private Map<Integer, String> parseTransactionList(String transactionsList) {
+        Map<Integer, String> transactionMap = new HashMap<>();
+        String[] transactions = transactionsList.split("\n");
+        for (String transaction : transactions) {
+            String[] parts = transaction.split(": Transaction");
+            if (parts.length == 2) {
+                int number = Integer.parseInt(parts[0].trim());
+                String transactionId = parts[1].split(",")[0].split("=")[1].replace("'", "").trim();
+                transactionMap.put(number, transactionId);
+            }
+        }
+        return transactionMap;
     }
 
     private void deleteTransaction() throws IOException {

@@ -17,12 +17,14 @@ public class MyAvlTree<T> {
     }
 
     public void insert(T value) throws Exception {
+        System.out.println("Inserting value: " + value.toString()); // Log the value being inserted
         root = insert(root, value, new Logical(false));
     }
 
     private Node<T> insert(Node<T> node, T value, Logical heightIncreased) throws Exception {
         if (node == null) {
             heightIncreased.setValue(true);
+            System.out.println("Inserted at root: " + value.toString()); // Log insertion at root
             return new Node<>(value);
         }
 
@@ -166,6 +168,7 @@ public class MyAvlTree<T> {
     public T search(T value) {
         Node<T> node = root;
         while (node != null) {
+            System.out.println("Comparing with node: " + node.getData().toString()); // Log the comparison
             int compareResult = comparator.isLessThan(value, node.getData()) ? -1 :
                     comparator.isGreaterThan(value, node.getData()) ? 1 : 0;
 
@@ -173,10 +176,11 @@ public class MyAvlTree<T> {
                 node = node.getLeft();
             } else if (compareResult > 0) {
                 node = node.getRight();
-            } else {
+            } else if (comparator.isEqualTo(value, node.getData())) {
                 return node.getData();
             }
         }
+        System.out.println("Value not found: " + value.toString()); // Log value not found
         return null;
     }
 
