@@ -1,9 +1,10 @@
 package co.edu.uptc.model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UserManager {
+public class UserManager implements Serializable {
     private Map<String, User> users;
 
     public UserManager() {

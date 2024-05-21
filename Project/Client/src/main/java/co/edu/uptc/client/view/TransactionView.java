@@ -37,7 +37,7 @@ public class TransactionView {
                     listTransactionsForEdit();
                     break;
                 case "4":
-                    deleteTransaction();
+                    listTransactionsForDelete();
                     break;
                 case "5":
                     presenter.getLoginView().display();
@@ -155,6 +155,20 @@ public class TransactionView {
         }
     }
 
+    private void listTransactionsForDelete() throws IOException {
+        String userId = presenter.getLoginView().getCurrentUser().getUsername(); // Ensure this fetches the correct identifier
+        Request request = new Request("listTransactions", userId);
+        presenter.getConnection().sendRequest(request);
+        Response response = presenter.getConnection().receiveResponse();
+
+        if ("success".equals(response.getStatus())) {
+            System.out.println(response.getData()); // Print transaction list
+            deleteTransaction(response.getData()); // Call deleteTransaction after listing
+        } else {
+            showMessage("Error: " + response.getData());
+        }
+    }
+
     private void editTransaction(String transactionsList) throws IOException {
         Scanner scanner = new Scanner(System.in);
 
@@ -241,6 +255,32 @@ public class TransactionView {
         display();
     }
 
+    private void deleteTransaction(String transactionsList) throws IOException {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter transaction number to delete: ");
+        int transactionNumber = Integer.parseInt(scanner.nextLine());
+
+        // Parse transactions list to map transaction number to transaction ID
+        Map<Integer, String> transactionMap = parseTransactionList(transactionsList);
+
+        // Retrieve transaction ID based on transactionNumber, handle invalid selection
+        if (!transactionMap.containsKey(transactionNumber)) {
+            showMessage("Invalid transaction number. Try again.");
+            display();
+            return;
+        }
+        String transactionId = transactionMap.get(transactionNumber);
+
+        String userId = presenter.getLoginView().getCurrentUser().getUsername();
+        String requestData = userId + "," + transactionId; // Correct transactionId in requestData
+        Request request = new Request("deleteTransaction", requestData);
+        presenter.getConnection().sendRequest(request);
+        Response response = presenter.getConnection().receiveResponse();
+        showMessage(response.getData());
+        display();
+    }
+
     private Map<Integer, String> parseTransactionList(String transactionsList) {
         Map<Integer, String> transactionMap = new HashMap<>();
         String[] transactions = transactionsList.split("\n");
@@ -253,19 +293,6 @@ public class TransactionView {
             }
         }
         return transactionMap;
-    }
-
-    private void deleteTransaction() throws IOException {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.print("Enter Transaction ID to delete: ");
-        String transactionId = scanner.nextLine();
-
-        Request request = new Request("deleteTransaction", transactionId);
-        presenter.getConnection().sendRequest(request);
-        Response response = presenter.getConnection().receiveResponse();
-        showMessage(response.getData());
-        display();
     }
 
     public void showMessage(String message) {

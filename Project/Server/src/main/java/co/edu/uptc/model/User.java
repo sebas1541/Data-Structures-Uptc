@@ -129,7 +129,7 @@ public class User {
     // Methods for Managing Family Group
     public void addFamilyMember(User member) {
         if (familyGroup == null) {
-            familyGroup = new FamilyGroup(this.userId); // Use userId as groupId or another unique identifier
+            familyGroup = new FamilyGroup(this.userId + "group"); // Use userId as groupId or another unique identifier
         }
         familyGroup.addMember(member);
     }
@@ -148,7 +148,7 @@ public class User {
             Budget budget = budgetIterator.next();
             double spent = 0;
             for (Transaction transaction : transactions.inOrder()) {
-                if (transaction.getCategory().equals(budget.getCategory())) {
+                if (transaction.getCategory().equals(budget.getCategory().getName())) {
                     spent += transaction.getAmount();
                 }
             }

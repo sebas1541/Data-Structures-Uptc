@@ -5,19 +5,27 @@ import java.util.Objects;
 
 public class Transaction implements Comparable<Transaction> {
     private String transactionId;
+    private String userId; // Add userId here
     private double amount;
     private LocalDateTime dateTime;
     private String category;
     private String description;
     private String type; // "income" or "expense"
 
-    public Transaction(String transactionId, double amount, LocalDateTime dateTime, String category, String description, String type) {
+    // Full constructor
+    public Transaction(String transactionId, String userId, double amount, LocalDateTime dateTime, String category, String description, String type) {
         this.transactionId = transactionId;
+        this.userId = userId; // Set userId here
         this.amount = amount;
         this.dateTime = (dateTime == null) ? LocalDateTime.now() : dateTime;
         this.category = category;
         this.description = description;
         this.type = type;
+    }
+
+    // Constructor for search purposes
+    public Transaction(String transactionId) {
+        this.transactionId = transactionId;
     }
 
     // Getters and Setters
@@ -27,6 +35,14 @@ public class Transaction implements Comparable<Transaction> {
 
     public void setTransactionId(String transactionId) {
         this.transactionId = transactionId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public double getAmount() {
@@ -78,6 +94,7 @@ public class Transaction implements Comparable<Transaction> {
     public String toString() {
         return "Transaction{" +
                 "transactionId='" + transactionId + '\'' +
+                ", userId='" + userId + '\'' +
                 ", amount=" + amount +
                 ", dateTime=" + dateTime +
                 ", category='" + category + '\'' +
