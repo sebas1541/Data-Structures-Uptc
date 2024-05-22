@@ -12,6 +12,7 @@ public class FamilyGroup {
         this.members = new ArrayList<>();
     }
 
+    // Getters and Setters
     public String getGroupId() {
         return groupId;
     }
@@ -24,11 +25,42 @@ public class FamilyGroup {
         return members;
     }
 
+    // Methods to manage members
     public void addMember(User member) {
         members.add(member);
     }
 
     public void removeMember(User member) {
         members.remove(member);
+    }
+
+    public boolean isMember(User user) {
+        return members.contains(user);
+    }
+
+    public User getMemberById(String userId) {
+        for (User member : members) {
+            if (member.getUserId().equals(userId)) {
+                return member;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public String toString() {
+        return "FamilyGroup{" +
+                "groupId='" + groupId + '\'' +
+                ", members=" + members +
+                '}';
+    }
+
+    // Additional functionality
+    public int getTotalMembers() {
+        return members.size();
+    }
+
+    public void clearAllMembers() {
+        members.clear();
     }
 }

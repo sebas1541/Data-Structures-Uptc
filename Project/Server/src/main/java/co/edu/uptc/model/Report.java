@@ -57,4 +57,13 @@ public class Report {
                 ", content='" + content + '\'' +
                 '}';
     }
+
+    // Additional functionality
+    public void appendContent(String additionalContent) {
+        this.content += additionalContent;
+    }
+
+    public void clearContent() {
+        this.content = "";
+    }
 }

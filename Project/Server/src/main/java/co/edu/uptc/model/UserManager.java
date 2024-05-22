@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class UserManager implements Serializable {
+
     private Map<String, User> users;
 
     public UserManager() {

@@ -1,4 +1,4 @@
-package co.edu.uptc.net;
+package co.edu.uptc.client.net;
 
 public class FamilyMemberData {
     private String userId;    // Parent user ID

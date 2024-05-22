@@ -1,42 +1,40 @@
 package co.edu.uptc.structures.stacks;
 
-import co.edu.uptc.structures.lists.MyList;
-
 import java.util.Iterator;
-import java.util.List;
+import java.util.LinkedList;
 
-public class MyStack<T> implements Iterable<T> {
-    private MyList<T> myList;
+public class MyStack<T> {
+    private LinkedList<T> stack;
 
     public MyStack() {
-        myList = new MyList<>();
+        stack = new LinkedList<>();
     }
 
-    public void push(T value) {
-        myList.add(value);
+    public void push(T item) {
+        stack.push(item);
     }
 
     public T pop() {
-        return myList.removeLast();
-    }
-
-    public T peek() {
-        return myList.getLast();
+        return stack.pop();
     }
 
     public boolean isEmpty() {
-        return myList.isEmpty();
+        return stack.isEmpty();
     }
 
-    @Override
     public Iterator<T> iterator() {
-        return myList.iterator();
+        return stack.iterator();
     }
 
-    @Override
-    public String toString() {
-        return "MyStack{" +
-                "myList=" + myList +
-                '}';
+    public boolean contains(T item) {
+        return stack.contains(item);
+    }
+
+    public void remove(T item) {
+        stack.remove(item);
+    }
+
+    public LinkedList<T> toList() {
+        return new LinkedList<>(stack);
     }
 }

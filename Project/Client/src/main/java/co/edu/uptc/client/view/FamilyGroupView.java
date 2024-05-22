@@ -1,16 +1,21 @@
 package co.edu.uptc.client.view;
 
+import co.edu.uptc.client.net.FamilyMemberData;
 import co.edu.uptc.client.net.Request;
 import co.edu.uptc.client.presenter.ClientPresenter;
+
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.Scanner;
 
 public class FamilyGroupView {
     private ClientPresenter presenter;
+    private Gson gson;
 
     public FamilyGroupView(ClientPresenter presenter) {
         this.presenter = presenter;
+        this.gson = new Gson();
     }
 
     public void display() {
@@ -41,16 +46,27 @@ public class FamilyGroupView {
 
     private void addMember() throws IOException {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter member details (format: id,username,password,email): ");
+        System.out.print("Enter member details (format: username,email): ");
         String memberDetails = scanner.nextLine();
-        Request request = new Request("addMember", memberDetails);
-        presenter.getConnection().sendRequest(request);
-        presenter.getConnection().receiveResponse();
+        String[] details = memberDetails.split(",");
+        if (details.length == 2) {
+            FamilyMemberData familyMemberData = new FamilyMemberData(
+                    presenter.getLoginView().getCurrentUser().getUsername(), // Parent user ID
+                    details[0], // New member username
+                    details[1]  // New member email
+            );
+            String familyMemberDataJson = gson.toJson(familyMemberData);
+            Request request = new Request("addMember", familyMemberDataJson);
+            presenter.getConnection().sendRequest(request);
+            presenter.getConnection().receiveResponse();
+        } else {
+            showMessage("Invalid input format. Please try again.");
+        }
         display();
     }
 
     private void viewMembers() throws IOException {
-        Request request = new Request("viewMembers", "");
+        Request request = new Request("viewMembers", presenter.getLoginView().getCurrentUser().getUsername());
         presenter.getConnection().sendRequest(request);
         presenter.getConnection().receiveResponse();
         display();

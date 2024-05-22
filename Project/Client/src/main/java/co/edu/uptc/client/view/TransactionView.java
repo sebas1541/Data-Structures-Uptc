@@ -22,7 +22,15 @@ public class TransactionView {
 
     public void display() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Transaction Menu:\n1. Add Transaction\n2. View Transactions\n3. Edit Transaction\n4. Delete Transaction\n5. Back");
+        System.out.println("Main Menu:");
+        System.out.println("1. Add Transaction");
+        System.out.println("2. View Transactions");
+        System.out.println("3. Edit Transaction");
+        System.out.println("4. Delete Transaction");
+        System.out.println("5. Manage Budgets");
+        System.out.println("6. Export Data");
+        System.out.println("7. Manage Family Group");
+        System.out.println("8. Logout");
         String option = scanner.nextLine();
 
         try {
@@ -40,6 +48,15 @@ public class TransactionView {
                     listTransactionsForDelete();
                     break;
                 case "5":
+                    presenter.getBudgetView().display();
+                    break;
+                case "6":
+                    presenter.getExportDataView().display();
+                    break;
+                case "7":
+                    presenter.getFamilyGroupView().display();
+                    break;
+                case "8":
                     presenter.getLoginView().display();
                     break;
                 default:

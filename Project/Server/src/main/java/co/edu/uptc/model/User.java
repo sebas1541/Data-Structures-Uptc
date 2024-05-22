@@ -26,27 +26,27 @@ public class User {
         this.email = email;
         this.transactions = new MyAvlTree<>(new TransactionComparator());
         this.budgetHistory = new MyStack<>();
-        this.familyGroup = null; // Optional, can be set later
+        this.familyGroup = null;
     }
 
-    // Generate unique user ID
+
     private String generateUserId() {
         return Base64.getEncoder().encodeToString((username + System.currentTimeMillis()).getBytes());
     }
 
-    // Hash password using SHA-256
+
     private String hashPassword(String password) throws NoSuchAlgorithmException {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         byte[] hash = digest.digest(password.getBytes());
         return Base64.getEncoder().encodeToString(hash);
     }
 
-    // Verify password
+
     public boolean verifyPassword(String password) throws NoSuchAlgorithmException {
         return this.hashedPassword.equals(hashPassword(password));
     }
 
-    // Getters
+
     public String getUserId() {
         return userId;
     }
@@ -107,6 +107,7 @@ public class User {
     // Methods for Managing Transactions
     public void addTransaction(Transaction transaction) throws Exception {
         transactions.insert(transaction);
+        adjustBudget(transaction);
     }
 
     public void removeTransaction(Transaction transaction) throws Exception {
@@ -117,6 +118,19 @@ public class User {
         return transactions.search(transaction);
     }
 
+    // Adjust the budget based on the transaction category
+    private void adjustBudget(Transaction transaction) {
+        Iterator<Budget> iterator = budgetHistory.iterator();
+        while (iterator.hasNext()) {
+            Budget budget = iterator.next();
+            if (budget.getCategory().getName().equalsIgnoreCase(transaction.getCategory())) {
+                double newAmount = budget.getAmount() - transaction.getAmount();
+                budget.setAmount(newAmount);
+                break; // Assuming one budget per category
+            }
+        }
+    }
+
     // Methods for Managing Budget History
     public void addBudget(Budget budget) {
         budgetHistory.push(budget);
@@ -124,6 +138,17 @@ public class User {
 
     public Budget undoLastBudget() {
         return budgetHistory.pop();
+    }
+
+    public Budget findBudgetById(String budgetId) {
+        Iterator<Budget> iterator = budgetHistory.iterator();
+        while (iterator.hasNext()) {
+            Budget budget = iterator.next();
+            if (budget.getBudgetId().equals(budgetId)) {
+                return budget;
+            }
+        }
+        return null;
     }
 
     // Methods for Managing Family Group
