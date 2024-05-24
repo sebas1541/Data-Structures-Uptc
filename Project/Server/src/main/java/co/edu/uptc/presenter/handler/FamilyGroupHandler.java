@@ -22,20 +22,26 @@ public class FamilyGroupHandler {
         FamilyMemberData familyMemberData = gson.fromJson(data, FamilyMemberData.class);
         User user = userManager.getUserByUsername(familyMemberData.getUserId());
         if (user != null) {
-            User newMember = userManager.getUserByUsername(familyMemberData.getUsername());
-            if (newMember != null) {
-                user.addFamilyMember(newMember);
-                String responseJson = gson.toJson(new Response("success", "Member added successfully"));
+            if (user.isMemberAlreadyAdded(familyMemberData.getUsername())) {
+                String responseJson = gson.toJson(new Response("error", "Member already added"));
                 output.writeUTF(responseJson);
             } else {
-                String responseJson = gson.toJson(new Response("error", "User to be added as a member not found"));
-                output.writeUTF(responseJson);
+                User newMember = userManager.getUserByUsername(familyMemberData.getUsername());
+                if (newMember != null) {
+                    user.addFamilyMember(newMember);
+                    String responseJson = gson.toJson(new Response("success", "Member added successfully"));
+                    output.writeUTF(responseJson);
+                } else {
+                    String responseJson = gson.toJson(new Response("error", "User to be added as a member not found"));
+                    output.writeUTF(responseJson);
+                }
             }
         } else {
             String responseJson = gson.toJson(new Response("error", "User not found"));
             output.writeUTF(responseJson);
         }
     }
+
 
     public void viewMembers(String data, DataOutputStream output) throws IOException {
         User user = userManager.getUserByUsername(data);

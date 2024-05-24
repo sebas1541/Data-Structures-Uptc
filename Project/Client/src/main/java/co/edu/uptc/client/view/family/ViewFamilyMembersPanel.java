@@ -65,17 +65,22 @@ public class ViewFamilyMembersPanel extends JPanel {
         try {
             presenter.viewFamilyMembers(response -> {
                 String members = response.getData();
-                FamilyMemberData[] familyMemberDataArray = new Gson().fromJson(members, FamilyMemberData[].class);
-                for (FamilyMemberData familyMemberData : familyMemberDataArray) {
-                    addFamilyMemberItem(familyMemberData);
+                if (members.startsWith("[")) { // Checks if the response is likely a JSON array
+                    FamilyMemberData[] familyMemberDataArray = new Gson().fromJson(members, FamilyMemberData[].class);
+                    for (FamilyMemberData familyMemberData : familyMemberDataArray) {
+                        addFamilyMemberItem(familyMemberData);
+                    }
+                    itemsPanel.revalidate();
+                    itemsPanel.repaint();
+                } else {
+                    showMessage("No family members found."); // Handle cases where no JSON array is returned
                 }
-                itemsPanel.revalidate();
-                itemsPanel.repaint();
             });
         } catch (IOException e) {
             showMessage("Error loading family members: " + e.getMessage());
         }
     }
+
 
     private void addFamilyMemberItem(FamilyMemberData familyMemberData) {
         JPanel itemPanel = new JPanel(new GridBagLayout());

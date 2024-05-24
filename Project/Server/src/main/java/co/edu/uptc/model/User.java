@@ -41,6 +41,15 @@ public class User {
         return Base64.getEncoder().encodeToString(hash);
     }
 
+    public boolean isMemberAlreadyAdded(String username) {
+        if (familyGroup != null) {
+            return familyGroup.getMembers().stream()
+                    .anyMatch(member -> member.getUsername().equals(username));
+        }
+        return false; // Return false if there is no family group created yet.
+    }
+
+
 
     public boolean verifyPassword(String password) throws NoSuchAlgorithmException {
         return this.hashedPassword.equals(hashPassword(password));
