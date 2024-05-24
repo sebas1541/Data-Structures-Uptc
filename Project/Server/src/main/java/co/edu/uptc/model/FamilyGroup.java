@@ -34,9 +34,15 @@ public class FamilyGroup {
         members.remove(member);
     }
 
-    public boolean isMember(User user) {
-        return members.contains(user);
+    public boolean isMember(String username) {
+        for (User member : members) {
+            if (member.getUsername().equals(username)) {
+                return true;
+            }
+        }
+        return false;
     }
+
 
     public User getMemberById(String userId) {
         for (User member : members) {

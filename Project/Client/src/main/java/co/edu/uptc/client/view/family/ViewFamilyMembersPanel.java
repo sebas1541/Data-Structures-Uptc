@@ -8,15 +8,18 @@ import com.google.gson.Gson;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.util.HashMap;
 
 public class ViewFamilyMembersPanel extends JPanel {
     private ClientPresenter presenter;
     private JPanel itemsPanel;
     private ButtonGroup memberGroup;
     private JButton backButton;
+    private HashMap<JRadioButton, FamilyMemberData> memberButtons;
 
     public ViewFamilyMembersPanel(ClientPresenter presenter) {
         this.presenter = presenter;
+        this.memberButtons = new HashMap<>();
         initComponents();
     }
 
@@ -62,6 +65,7 @@ public class ViewFamilyMembersPanel extends JPanel {
 
     public void loadFamilyMembers() {
         itemsPanel.removeAll();
+        memberButtons.clear();
         try {
             presenter.viewFamilyMembers(response -> {
                 String members = response.getData();
@@ -80,7 +84,6 @@ public class ViewFamilyMembersPanel extends JPanel {
             showMessage("Error loading family members: " + e.getMessage());
         }
     }
-
 
     private void addFamilyMemberItem(FamilyMemberData familyMemberData) {
         JPanel itemPanel = new JPanel(new GridBagLayout());
@@ -108,6 +111,7 @@ public class ViewFamilyMembersPanel extends JPanel {
 
         JRadioButton memberButton = new JRadioButton();
         memberGroup.add(memberButton); // Add member button to ButtonGroup
+        memberButtons.put(memberButton, familyMemberData); // Map the button to the family member data
 
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -135,12 +139,22 @@ public class ViewFamilyMembersPanel extends JPanel {
 
     public void showFamilyMembers(String members) {
         itemsPanel.removeAll();
+        memberButtons.clear();
         FamilyMemberData[] familyMemberDataArray = new Gson().fromJson(members, FamilyMemberData[].class);
         for (FamilyMemberData familyMemberData : familyMemberDataArray) {
             addFamilyMemberItem(familyMemberData);
         }
         itemsPanel.revalidate();
         itemsPanel.repaint();
+    }
+
+    public String getSelectedMemberUsername() {
+        for (JRadioButton button : memberButtons.keySet()) {
+            if (button.isSelected()) {
+                return memberButtons.get(button).getUsername();
+            }
+        }
+        return null; // Return null if no member is selected
     }
 
     public void showMessage(String message) {

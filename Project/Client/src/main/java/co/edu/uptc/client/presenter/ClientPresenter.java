@@ -191,6 +191,19 @@ public class ClientPresenter {
         callback.accept(response);
     }
 
+    public void viewMemberTransactions(String username, Consumer<Response> callback) throws IOException {
+        if (connection == null) {
+            throw new IllegalStateException("Connection not established");
+        }
+        // Assuming the username of the family member is the only required data
+        Request request = new Request("viewFamilyMemberTransactions", gson.toJson(new FamilyMemberData(currentUser, username, null)));
+        connection.sendRequest(request);
+        Response response = connection.receiveResponse();
+        System.out.println("Transactions for member response: " + response.getData()); // Debugging statement
+        callback.accept(response);
+    }
+
+
     public void exportData(String format) throws IOException {
         Request request = new Request("exportData", format);
         connection.sendRequest(request);

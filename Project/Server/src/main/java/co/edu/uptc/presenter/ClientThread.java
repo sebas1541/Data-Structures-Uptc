@@ -91,6 +91,9 @@ public class ClientThread extends Thread {
                     case "viewMembers":
                         familyGroupHandler.viewMembers(request.getData(), output);
                         break;
+                    case "viewFamilyMemberTransactions":
+                        transactionHandler.viewFamilyMemberTransactions(request.getData(), output);
+                        break;
                     case "disconnect":
                         running = false;
                         break;
@@ -112,4 +115,5 @@ public class ClientThread extends Thread {
             }
         }
     }
+
 }

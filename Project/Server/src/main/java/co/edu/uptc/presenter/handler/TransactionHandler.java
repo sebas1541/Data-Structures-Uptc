@@ -3,6 +3,7 @@ package co.edu.uptc.presenter.handler;
 import co.edu.uptc.model.Transaction;
 import co.edu.uptc.model.User;
 import co.edu.uptc.model.UserManager;
+import co.edu.uptc.net.FamilyMemberData;
 import co.edu.uptc.net.Response;
 import co.edu.uptc.net.TransactionData;
 import com.google.gson.Gson;
@@ -52,6 +53,26 @@ public class TransactionHandler {
             }
         }
     }
+
+    public void viewFamilyMemberTransactions(String data, DataOutputStream output) throws IOException {
+        FamilyMemberData requestData = gson.fromJson(data, FamilyMemberData.class);
+        User requestingUser = userManager.getUserByUsername(requestData.getUserId());
+        if (requestingUser != null && requestingUser.getFamilyGroup() != null
+                && requestingUser.getFamilyGroup().isMember(requestData.getUsername())) {
+            User familyMember = userManager.getUserByUsername(requestData.getUsername());
+            if (familyMember != null) {
+                List<Transaction> transactions = familyMember.getTransactions().inOrder();
+                String responseJson = gson.toJson(new Response("success", gson.toJson(transactions)));
+                output.writeUTF(responseJson);
+            } else {
+                output.writeUTF(gson.toJson(new Response("error", "Family member's transactions not found")));
+            }
+        } else {
+            output.writeUTF(gson.toJson(new Response("error", "Invalid request or family member not found")));
+        }
+    }
+
+
 
     public void deleteTransaction(String data, DataOutputStream output) throws IOException {
         synchronized (userManager) {
