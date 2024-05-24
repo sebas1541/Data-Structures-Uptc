@@ -141,10 +141,6 @@ public class ClientPresenter {
         callback.accept(response);
     }
 
-
-
-
-
     public void editBudget(String budgetId, String category, double amount) throws IOException {
         BudgetData budgetData = new BudgetData(currentUser, budgetId, category, amount);
         String budgetDataJson = gson.toJson(budgetData);
@@ -179,14 +175,20 @@ public class ClientPresenter {
     }
 
     public void viewFamilyMembers() throws IOException {
+        viewFamilyMembers(response -> {
+            mainFrame.getFamilyGroupView().getViewFamilyMembersPanel().showFamilyMembers(response.getData());
+        });
+    }
+
+    public void viewFamilyMembers(Consumer<Response> callback) throws IOException {
+        if (connection == null) {
+            throw new IllegalStateException("Connection not established");
+        }
         Request request = new Request("viewMembers", currentUser);
         connection.sendRequest(request);
         Response response = connection.receiveResponse();
-        if ("success".equals(response.getStatus())) {
-            mainFrame.getFamilyGroupView().showFamilyMembers(response.getData());
-        } else {
-            mainFrame.getFamilyGroupView().showMessage("Error: " + response.getData());
-        }
+        System.out.println("Family members response: " + response.getData()); // Debugging statement
+        callback.accept(response);
     }
 
     public void exportData(String format) throws IOException {
@@ -218,5 +220,13 @@ public class ClientPresenter {
 
     public void showRegisterView() {
         mainFrame.showView("RegisterView");
+    }
+
+    public void showAddFamilyMemberView() {
+        mainFrame.getFamilyGroupView().showPanel("AddFamilyMemberPanel");
+    }
+
+    public void showViewFamilyMembersView() {
+        mainFrame.getFamilyGroupView().showPanel("ViewFamilyMembersPanel");
     }
 }
