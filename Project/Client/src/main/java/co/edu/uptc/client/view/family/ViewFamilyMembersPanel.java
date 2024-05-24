@@ -15,6 +15,7 @@ public class ViewFamilyMembersPanel extends JPanel {
     private JPanel itemsPanel;
     private ButtonGroup memberGroup;
     private JButton backButton;
+    private JLabel instructionLabel;
     private HashMap<JRadioButton, FamilyMemberData> memberButtons;
 
     public ViewFamilyMembersPanel(ClientPresenter presenter) {
@@ -45,9 +46,16 @@ public class ViewFamilyMembersPanel extends JPanel {
         // Back Button
         backButton = new JButton("Back");
         backButton.addActionListener(e -> presenter.showFamilyGroupView());
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         buttonPanel.setBackground(new Color(216, 230, 233));
         buttonPanel.add(backButton);
+
+        // Instruction Label
+        instructionLabel = new JLabel("Select a user to view transactions");
+        instructionLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        instructionLabel.setForeground(Color.GRAY);
+        buttonPanel.add(instructionLabel);
+
         gbc.gridx = 1;
         gbc.gridy = 1;
         leftPanel.add(createWrappedPanel(buttonPanel, new Color(216, 230, 233)), gbc);
