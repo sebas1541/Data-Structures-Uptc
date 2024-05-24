@@ -5,8 +5,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import co.edu.uptc.client.presenter.ClientPresenter;
 import co.edu.uptc.client.view.budget.BudgetView;
+import co.edu.uptc.client.view.budget.EditBudgetPanel;
 import co.edu.uptc.client.view.export.ExportDataView;
+import co.edu.uptc.client.view.family.AddFamilyMemberPanel;
 import co.edu.uptc.client.view.family.FamilyGroupView;
+import co.edu.uptc.client.view.family.ViewFamilyMembersPanel;
 import co.edu.uptc.client.view.utils.LeftPanel;
 import co.edu.uptc.client.view.utils.TopPanel;
 import co.edu.uptc.client.view.login.LoginView;
@@ -72,6 +75,10 @@ public class MainFrame extends JFrame {
             addPanels();
         }
 
+        if ("FamilyGroupView".equals(viewName)) {
+            getFamilyGroupView().getViewFamilyMembersPanel().loadFamilyMembers();
+        }
+
         cl.show(mainPanel, viewName);
     }
 
@@ -127,8 +134,20 @@ public class MainFrame extends JFrame {
         return budgetView;
     }
 
+    public EditBudgetPanel getEditBudgetPanel() {
+        return budgetView.getEditBudgetPanel();
+    }
+
     public FamilyGroupView getFamilyGroupView() {
         return familyGroupView;
+    }
+
+    public AddFamilyMemberPanel getAddFamilyMemberPanel() {
+        return familyGroupView.getAddFamilyMemberPanel();
+    }
+
+    public ViewFamilyMembersPanel getViewFamilyMembersPanel() {
+        return familyGroupView.getViewFamilyMembersPanel();
     }
 
     public ExportDataView getExportDataView() {

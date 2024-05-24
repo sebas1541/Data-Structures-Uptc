@@ -1,15 +1,17 @@
 package co.edu.uptc.client.view.family;
 
+import co.edu.uptc.client.presenter.ClientPresenter;
+
 import javax.swing.*;
 import java.awt.*;
-import co.edu.uptc.client.presenter.ClientPresenter;
+import java.io.IOException;
 
 public class FamilyGroupView extends JPanel {
     private ClientPresenter presenter;
-    private JTextArea familyGroupArea;
-    private JButton addMemberButton;
-    private JButton viewMembersButton;
-    private JButton backButton;
+    private CardLayout cardLayout;
+    private JPanel cardPanel;
+    private AddFamilyMemberPanel addFamilyMemberPanel;
+    private ViewFamilyMembersPanel viewFamilyMembersPanel;
 
     public FamilyGroupView(ClientPresenter presenter) {
         this.presenter = presenter;
@@ -17,69 +19,58 @@ public class FamilyGroupView extends JPanel {
     }
 
     private void initComponents() {
-        setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
+        setLayout(new BorderLayout());
+        cardLayout = new CardLayout();
+        cardPanel = new JPanel(cardLayout);
 
-        JLabel titleLabel = new JLabel("Family");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 2;
-        add(titleLabel, gbc);
+        addFamilyMemberPanel = new AddFamilyMemberPanel(presenter);
+        viewFamilyMembersPanel = new ViewFamilyMembersPanel(presenter);
 
-        familyGroupArea = new JTextArea(15, 30);
-        familyGroupArea.setEditable(false);
-        JScrollPane scrollPane = new JScrollPane(familyGroupArea);
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.gridwidth = 2;
-        add(scrollPane, gbc);
+        cardPanel.add(addFamilyMemberPanel, "AddFamilyMemberPanel");
+        cardPanel.add(viewFamilyMembersPanel, "ViewFamilyMembersPanel");
 
-        addMemberButton = new JButton("Add Member");
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.gridwidth = 1;
-        add(addMemberButton, gbc);
+        add(cardPanel, BorderLayout.CENTER);
 
-        viewMembersButton = new JButton("View Members");
-        gbc.gridx = 1;
-        gbc.gridy = 2;
-        add(viewMembersButton, gbc);
+        JPanel navigationPanel = new JPanel();
+        navigationPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
+        navigationPanel.setBackground(new Color(216, 230, 233));
 
-        backButton = new JButton("Back");
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        gbc.gridwidth = 2;
-        add(backButton, gbc);
+        JButton addFamilyMemberButton = createButton("Add Member");
+        addFamilyMemberButton.addActionListener(e -> showPanel("AddFamilyMemberPanel"));
+        navigationPanel.add(addFamilyMemberButton);
 
-        addMemberButton.addActionListener(e -> addMember());
-        viewMembersButton.addActionListener(e -> viewMembers());
-        backButton.addActionListener(e -> presenter.showTransactionView());
-    }
-
-    private void addMember() {
-        String username = JOptionPane.showInputDialog(this, "Enter new member's username:");
-        String email = JOptionPane.showInputDialog(this, "Enter new member's email:");
-        if (username != null && email != null) {
+        JButton viewFamilyMembersButton = createButton("View Members");
+        viewFamilyMembersButton.addActionListener(e -> {
             try {
-                presenter.addFamilyMember(username, email);
-            } catch (Exception e) {
-                showMessage("Error: " + e.getMessage());
+                presenter.viewFamilyMembers(response -> {
+                    viewFamilyMembersPanel.loadFamilyMembers();
+                    showPanel("ViewFamilyMembersPanel");
+                });
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
             }
-        }
+        });
+        navigationPanel.add(viewFamilyMembersButton);
+
+        add(navigationPanel, BorderLayout.SOUTH);
     }
 
-    private void viewMembers() {
-        try {
-            presenter.viewFamilyMembers();
-        } catch (Exception e) {
-            showMessage("Error: " + e.getMessage());
-        }
+    private JButton createButton(String text) {
+        JButton button = new JButton(text);
+        button.setPreferredSize(new Dimension(150, 50));
+        return button;
     }
 
-    public void showFamilyMembers(String members) {
-        familyGroupArea.setText(members);
+    public void showPanel(String panelName) {
+        cardLayout.show(cardPanel, panelName);
+    }
+
+    public AddFamilyMemberPanel getAddFamilyMemberPanel() {
+        return addFamilyMemberPanel;
+    }
+
+    public ViewFamilyMembersPanel getViewFamilyMembersPanel() {
+        return viewFamilyMembersPanel;
     }
 
     public void showMessage(String message) {
