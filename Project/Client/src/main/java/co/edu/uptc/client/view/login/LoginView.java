@@ -66,7 +66,7 @@ public class LoginView extends JPanel {
             try {
                 presenter.login(usernameField.getText(), new String(passwordField.getPassword()));
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+                JOptionPane.showMessageDialog(this, "Error:  " + ex.getMessage());
             }
         });
 
