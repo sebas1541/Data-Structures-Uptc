@@ -3,6 +3,7 @@ package co.edu.uptc.client.view.login;
 import javax.swing.*;
 import java.awt.*;
 import co.edu.uptc.client.presenter.ClientPresenter;
+import co.edu.uptc.client.view.utils.ResizeImage;
 
 public class LoginView extends JPanel {
     private JTextField usernameField;
@@ -21,9 +22,21 @@ public class LoginView extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
 
-        JLabel usernameLabel = new JLabel("Username:");
+        // Add logo at the top
+        ImageIcon companyIcon = new ImageIcon("resources/images/logo.png");
+        companyIcon = new ResizeImage().resize(companyIcon, 120, 120); // Larger size
+        JLabel companyIconLabel = new JLabel(companyIcon);
         gbc.gridx = 0;
         gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        gbc.insets = new Insets(0, 0, 20, 0);
+        add(companyIconLabel, gbc);
+
+        gbc.gridwidth = 1; // Reset gridwidth
+
+        JLabel usernameLabel = new JLabel("Username:");
+        gbc.gridx = 0;
+        gbc.gridy = 1;
         add(usernameLabel, gbc);
 
         usernameField = new JTextField(20);
@@ -32,7 +45,7 @@ public class LoginView extends JPanel {
 
         JLabel passwordLabel = new JLabel("Password:");
         gbc.gridx = 0;
-        gbc.gridy = 1;
+        gbc.gridy = 2;
         add(passwordLabel, gbc);
 
         passwordField = new JPasswordField(20);
@@ -41,12 +54,12 @@ public class LoginView extends JPanel {
 
         loginButton = new JButton("Login");
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         gbc.gridwidth = 2;
         add(loginButton, gbc);
 
         registerButton = new JButton("Register");
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         add(registerButton, gbc);
 
         loginButton.addActionListener(e -> {
@@ -57,14 +70,7 @@ public class LoginView extends JPanel {
             }
         });
 
-        registerButton.addActionListener(e -> {
-            try {
-                presenter.register();
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
-            }
-        });
-
+        registerButton.addActionListener(e -> presenter.showRegisterView());
     }
 
     public void showMessage(String message) {

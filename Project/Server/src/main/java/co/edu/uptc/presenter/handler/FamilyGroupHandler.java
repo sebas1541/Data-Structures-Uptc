@@ -22,15 +22,13 @@ public class FamilyGroupHandler {
         FamilyMemberData familyMemberData = gson.fromJson(data, FamilyMemberData.class);
         User user = userManager.getUserByUsername(familyMemberData.getUserId());
         if (user != null) {
-            try {
-                User newMember = new User(familyMemberData.getUsername(), "defaultPassword", familyMemberData.getEmail()); // Default password
+            User newMember = userManager.getUserByUsername(familyMemberData.getUsername());
+            if (newMember != null) {
                 user.addFamilyMember(newMember);
-                userManager.addUser(newMember); // Add the new member to the UserManager
-
                 String responseJson = gson.toJson(new Response("success", "Member added successfully"));
                 output.writeUTF(responseJson);
-            } catch (Exception e) {
-                String responseJson = gson.toJson(new Response("error", e.getMessage()));
+            } else {
+                String responseJson = gson.toJson(new Response("error", "User to be added as a member not found"));
                 output.writeUTF(responseJson);
             }
         } else {

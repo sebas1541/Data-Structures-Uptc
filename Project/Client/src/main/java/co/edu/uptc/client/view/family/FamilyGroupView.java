@@ -21,7 +21,7 @@ public class FamilyGroupView extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
 
-        JLabel titleLabel = new JLabel("Family Group Management");
+        JLabel titleLabel = new JLabel("Family");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         gbc.gridx = 0;
         gbc.gridy = 0;

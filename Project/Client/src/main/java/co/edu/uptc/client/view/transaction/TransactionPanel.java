@@ -8,6 +8,5 @@ public class TransactionPanel extends JPanel {
     }
 
     public void showTransactions(String transactions) {
-        // Default implementation, can be overridden by subclasses
     }
 }

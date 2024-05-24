@@ -49,13 +49,6 @@ public class TransactionData {
 
     @Override
     public String toString() {
-        return "Transaction ID: " + transactionId +
-                "\nUser ID: " + userId +
-                "\nAmount: " + amount +
-                "\nDate and Time: " + dateTime +
-                "\nCategory: " + category +
-                "\nDescription: " + description +
-                "\nType: " + type +
-                "\n";
+        return "ID: " + transactionId + " | Amount: " + amount + " | " + category + " | " + description;
     }
 }

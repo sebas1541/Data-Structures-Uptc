@@ -1,11 +1,9 @@
 package co.edu.uptc.model;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UserManager implements Serializable {
-
+public class UserManager {
     private Map<String, User> users;
 
     public UserManager() {
@@ -16,19 +14,11 @@ public class UserManager implements Serializable {
         users.put(user.getUsername(), user);
     }
 
-    public User getUserById(String userId) {
-        return users.get(userId);
-    }
-
     public User getUserByUsername(String username) {
-        return users.values().stream()
-                .filter(user -> user.getUsername().equals(username))
-                .findFirst()
-                .orElse(null);
+        return users.get(username);
     }
 
-    public void removeUser(String userId) {
-        users.remove(userId);
+    public void updateUser(User user) {
+        users.put(user.getUsername(), user); // Ensure this updates the user data
     }
 }
-

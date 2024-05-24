@@ -1,5 +1,6 @@
 package co.edu.uptc.client.net;
 
+
 public class FamilyMemberData {
     private String userId;    // Parent user ID
     private String username;
@@ -36,3 +37,4 @@ public class FamilyMemberData {
         this.email = email;
     }
 }
+
