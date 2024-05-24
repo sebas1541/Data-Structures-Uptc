@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import co.edu.uptc.client.presenter.ClientPresenter;
 import co.edu.uptc.client.view.budget.BudgetView;
+import co.edu.uptc.client.view.budget.EditBudgetPanel;
 import co.edu.uptc.client.view.export.ExportDataView;
 import co.edu.uptc.client.view.family.FamilyGroupView;
 import co.edu.uptc.client.view.utils.LeftPanel;
@@ -125,6 +126,10 @@ public class MainFrame extends JFrame {
 
     public BudgetView getBudgetView() {
         return budgetView;
+    }
+
+    public EditBudgetPanel getEditBudgetPanel() {
+        return budgetView.getEditBudgetPanel();
     }
 
     public FamilyGroupView getFamilyGroupView() {

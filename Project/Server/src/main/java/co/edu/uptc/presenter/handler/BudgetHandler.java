@@ -79,12 +79,14 @@ public class BudgetHandler {
 
     public void deleteBudget(String data, DataOutputStream output) throws IOException {
         synchronized (userManager) {
-            BudgetData budgetData = gson.fromJson(data, BudgetData.class);
-            User user = userManager.getUserByUsername(budgetData.getUserId());
+            String[] parts = data.split(",");
+            String userId = parts[0];
+            String budgetId = parts[1];
+            User user = userManager.getUserByUsername(userId);
             if (user != null) {
                 List<Budget> budgets = user.getBudgetHistory().toList();
                 Budget budgetToDelete = budgets.stream()
-                        .filter(b -> budgetData.getBudgetId().equals(b.getBudgetId()))
+                        .filter(b -> budgetId.equals(b.getBudgetId()))
                         .findFirst()
                         .orElse(null);
                 if (budgetToDelete != null) {
@@ -101,6 +103,7 @@ public class BudgetHandler {
             }
         }
     }
+
 
     public void viewBudget(String data, DataOutputStream output) throws IOException {
         synchronized (userManager) {

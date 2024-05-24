@@ -116,18 +116,34 @@ public class ClientPresenter {
         Response response = connection.receiveResponse();
         mainFrame.getBudgetView().showMessage(response.getData());
         viewBudgets();
+        // Call loadBudgets() to refresh the list after adding a budget
+        mainFrame.getBudgetView().getEditBudgetPanel().loadBudgets();
     }
 
     public void viewBudgets() throws IOException {
-        Request request = new Request("viewBudgets", currentUser);
+        viewBudgets(response -> {
+            if ("success".equals(response.getStatus())) {
+                mainFrame.getBudgetView().showBudgets(response.getData());
+            } else {
+                mainFrame.getBudgetView().showMessage("Error: " + response.getData());
+            }
+        });
+    }
+
+    public void viewBudgets(Consumer<Response> callback) throws IOException {
+        if (connection == null) {
+            throw new IllegalStateException("Connection not established");
+        }
+        Request request = new Request("viewBudget", currentUser); // Corrected action name
         connection.sendRequest(request);
         Response response = connection.receiveResponse();
-        if ("success".equals(response.getStatus())) {
-            mainFrame.getBudgetView().showBudgets(response.getData());
-        } else {
-            mainFrame.getBudgetView().showMessage("Error: " + response.getData());
-        }
+        System.out.println("Budgets response: " + response.getData()); // Debugging statement
+        callback.accept(response);
     }
+
+
+
+
 
     public void editBudget(String budgetId, String category, double amount) throws IOException {
         BudgetData budgetData = new BudgetData(currentUser, budgetId, category, amount);
@@ -137,6 +153,8 @@ public class ClientPresenter {
         Response response = connection.receiveResponse();
         mainFrame.getBudgetView().showMessage(response.getData());
         viewBudgets();
+        // Call loadBudgets() to refresh the list after editing a budget
+        mainFrame.getBudgetView().getEditBudgetPanel().loadBudgets();
     }
 
     public void deleteBudget(String budgetId) throws IOException {
@@ -146,6 +164,8 @@ public class ClientPresenter {
         Response response = connection.receiveResponse();
         mainFrame.getBudgetView().showMessage(response.getData());
         viewBudgets();
+        // Call loadBudgets() to refresh the list after deleting a budget
+        mainFrame.getBudgetView().getEditBudgetPanel().loadBudgets();
     }
 
     public void addFamilyMember(String username, String email) throws IOException {

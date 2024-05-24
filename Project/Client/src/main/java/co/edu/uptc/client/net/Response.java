@@ -24,4 +24,6 @@ public class Response {
     public void setData(String data) {
         this.data = data;
     }
+
+
 }
