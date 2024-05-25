@@ -98,7 +98,7 @@ public class EditBudgetPanel extends JPanel {
         leftPanel.add(createWrappedPanel(buttonPanel, new Color(216, 230, 233)), gbc);
 
         saveButton.addActionListener(e -> saveBudget());
-        backButton.addActionListener(e -> presenter.showBudgetView());
+        backButton.addActionListener(e -> presenter.showTransactionView());
 
         add(leftPanel, BorderLayout.WEST);
 

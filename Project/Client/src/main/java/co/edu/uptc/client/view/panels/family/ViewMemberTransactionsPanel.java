@@ -38,7 +38,7 @@ public class ViewMemberTransactionsPanel extends JPanel {
         add(scrollPane, BorderLayout.CENTER);
 
         JButton backButton = new JButton("Atrás");
-        backButton.addActionListener(e -> presenter.showFamilyGroupView());
+        backButton.addActionListener(e -> presenter.showTransactionView());
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         buttonPanel.setBackground(new Color(216, 230, 233));
         buttonPanel.add(backButton);

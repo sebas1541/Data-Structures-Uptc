@@ -72,7 +72,7 @@ public class AddBudgetPanel extends JPanel {
         // Save and Back Buttons
         saveButton = new JButton("Guardar");
         backButton = new JButton("Atrás");
-        backButton.addActionListener(e -> presenter.showBudgetView());
+        backButton.addActionListener(e -> presenter.showTransactionView());
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         buttonPanel.setBackground(new Color(216, 230, 233));
         buttonPanel.add(saveButton);

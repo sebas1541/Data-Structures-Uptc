@@ -1,3 +1,3 @@
-User ID,Transaction ID,Amount,Date Time,Category,Description,Type
-123,TXN-1716607133639,65400.0,2024-05-24 22:18:53,Otros Gastos,Yorley Tragaloza,expense
-123,TXN-1716607143046,100500.0,2024-05-24 22:19:03,Alimentación,Comida viernes noche,expense
+User ID,ID de Transacción,Cantidad,Fecha y Hora,Categoría,Descripción,Tipo
+123,TXN-1716609076721,86500.0,2024-05-24 22:51:16,Alimentación,Comida,expense
+123,TXN-1716609104439,67900.0,2024-05-25 00:22:05,Ropa y Calzado,Zapatos,expense

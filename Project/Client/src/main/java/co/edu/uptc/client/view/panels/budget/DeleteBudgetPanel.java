@@ -61,7 +61,7 @@ public class DeleteBudgetPanel extends JPanel {
         leftPanel.add(createWrappedPanel(buttonPanel, new Color(216, 230, 233)), gbc);
 
         deleteButton.addActionListener(e -> deleteBudget());
-        backButton.addActionListener(e -> presenter.showBudgetView());
+        backButton.addActionListener(e -> presenter.showTransactionView());
 
         add(leftPanel, BorderLayout.WEST);
 

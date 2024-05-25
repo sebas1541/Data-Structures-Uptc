@@ -7,8 +7,8 @@ import java.awt.event.ActionListener;
 public class LeftPanel extends JPanel {
     private static final Color BUTTON_TEXT_COLOR = new Color(189, 189, 189);
     private static final Font BUTTON_FONT = new Font("Arial", Font.PLAIN, 12);
-    private static final int IMAGE_WIDTH = 30;
-    private static final int IMAGE_HEIGHT = 28;
+    private static final int IMAGE_WIDTH = 40;
+    private static final int IMAGE_HEIGHT = 40;
 
     public LeftPanel(ActionListener ac) {
         initComponents(ac);
@@ -49,9 +49,9 @@ public class LeftPanel extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 0, 10, 0);
 
-        add(createButtonPanel("Transacciones", "resources/leftPanelIcons/history.png", BUTTON_TEXT_COLOR, ac), gbc, 0);
+        add(createButtonPanel("Transacciones", "resources/leftPanelIcons/order.png", BUTTON_TEXT_COLOR, ac), gbc, 0);
         add(createButtonPanel("Presupuesto", "resources/leftPanelIcons/config.png", BUTTON_TEXT_COLOR, ac), gbc, 1);
         add(createButtonPanel("Familia", "resources/leftPanelIcons/home.png", BUTTON_TEXT_COLOR, ac), gbc, 2);
-        add(createButtonPanel("Reportes", "resources/leftPanelIcons/order.png", BUTTON_TEXT_COLOR, ac), gbc, 3);
+        add(createButtonPanel("Reportes", "resources/leftPanelIcons/report.png", BUTTON_TEXT_COLOR, ac), gbc, 3);
     }
 }

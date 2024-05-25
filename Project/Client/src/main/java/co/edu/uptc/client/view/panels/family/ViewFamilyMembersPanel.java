@@ -29,7 +29,7 @@ public class ViewFamilyMembersPanel extends JPanel {
         setBackground(Color.WHITE);
 
         JPanel leftPanel = new JPanel(new GridBagLayout());
-        leftPanel.setBackground(Color.WHITE); // Set background color to white
+        leftPanel.setBackground(Color.WHITE);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -43,20 +43,18 @@ public class ViewFamilyMembersPanel extends JPanel {
         gbc.gridwidth = 2;
         leftPanel.add(createWrappedPanel(titleLabel, new Color(216, 230, 233)), gbc);
 
-        // Back Button
+        // Back Button and Instruction Label
         backButton = new JButton("Atrás");
-        backButton.addActionListener(e -> presenter.showFamilyGroupView());
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        buttonPanel.setBackground(new Color(216, 230, 233));
-        buttonPanel.add(backButton);
-
-        // Instruction Label
+        backButton.addActionListener(e -> presenter.showTransactionView());
         instructionLabel = new JLabel("Seleccione un miembro para ver transacciones");
         instructionLabel.setFont(new Font("Arial", Font.BOLD, 14));
         instructionLabel.setForeground(Color.GRAY);
+
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        buttonPanel.setBackground(new Color(216, 230, 233));
+        buttonPanel.add(backButton);
         buttonPanel.add(instructionLabel);
 
-        gbc.gridx = 1;
         gbc.gridy = 1;
         leftPanel.add(createWrappedPanel(buttonPanel, new Color(216, 230, 233)), gbc);
 
@@ -64,7 +62,7 @@ public class ViewFamilyMembersPanel extends JPanel {
 
         itemsPanel = new JPanel(new GridLayout(0, 1, 10, 10));
         itemsPanel.setBackground(Color.WHITE);
-        memberGroup = new ButtonGroup(); // Initialize ButtonGroup for member buttons
+        memberGroup = new ButtonGroup();
 
         JScrollPane scrollPane = new JScrollPane(itemsPanel);
         scrollPane.setPreferredSize(new Dimension(300, getHeight()));
@@ -77,7 +75,7 @@ public class ViewFamilyMembersPanel extends JPanel {
         try {
             presenter.viewFamilyMembers(response -> {
                 String members = response.getData();
-                if (members.startsWith("[")) { // Checks if the response is likely a JSON array
+                if (members.startsWith("[")) {
                     FamilyMemberData[] familyMemberDataArray = new Gson().fromJson(members, FamilyMemberData[].class);
                     for (FamilyMemberData familyMemberData : familyMemberDataArray) {
                         addFamilyMemberItem(familyMemberData);
@@ -85,7 +83,7 @@ public class ViewFamilyMembersPanel extends JPanel {
                     itemsPanel.revalidate();
                     itemsPanel.repaint();
                 } else {
-                    showMessage("No hay miembros"); // Handle cases where no JSON array is returned
+                    showMessage("No hay miembros");
                 }
             });
         } catch (IOException e) {
@@ -94,9 +92,8 @@ public class ViewFamilyMembersPanel extends JPanel {
     }
 
     private void addFamilyMemberItem(FamilyMemberData familyMemberData) {
-        JPanel itemPanel = new JPanel(new GridBagLayout());
-        itemPanel.setBackground(new Color(216, 230, 233));
-        itemPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        JPanel itemPanel = new RoundedPanel(new GridBagLayout(), 15, new Color(216, 230, 233));
+        itemPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         JPanel infoPanel = new JPanel(new GridBagLayout());
         infoPanel.setBackground(new Color(216, 230, 233));
@@ -118,8 +115,8 @@ public class ViewFamilyMembersPanel extends JPanel {
         infoPanel.add(emailLabel, gbc);
 
         JRadioButton memberButton = new JRadioButton();
-        memberGroup.add(memberButton); // Add member button to ButtonGroup
-        memberButtons.put(memberButton, familyMemberData); // Map the button to the family member data
+        memberGroup.add(memberButton);
+        memberButtons.put(memberButton, familyMemberData);
 
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -162,7 +159,7 @@ public class ViewFamilyMembersPanel extends JPanel {
                 return memberButtons.get(button).getUsername();
             }
         }
-        return null; // Return null if no member is selected
+        return null;
     }
 
     public void showMessage(String message) {

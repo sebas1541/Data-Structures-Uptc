@@ -21,50 +21,82 @@ public class TopPanel extends JPanel {
         initComponents(logoutAction);
     }
 
-    public void initComponents(ActionListener logoutAction) {
+    private void initComponents(ActionListener logoutAction) {
         setLayout(new GridBagLayout());
         setBackground(Color.WHITE);
         setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(236, 237, 237)));
 
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 17, 5, 10);
+        gbc.insets = new Insets(5, 10, 5, 10);
         gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.BOTH;
 
-        // Image Styling and Positioning
+        // Logo
         companyIcon = new ImageIcon("resources/images/logo.png");
-        companyIcon = new ResizeImage().resize(companyIcon, 80, 80); // Previous size
+        companyIcon = new ResizeImage().resize(companyIcon, 80, 80);
         companyIconLabelHeader = new JLabel(companyIcon);
         gbc.gridx = 0;
+        gbc.weightx = 0;
         gbc.anchor = GridBagConstraints.WEST;
         add(companyIconLabelHeader, gbc);
 
-        // Username Label
+        // Username
         usernameLabel = new JLabel();
-        usernameLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+        usernameLabel.setFont(new Font("Arial", Font.BOLD, 14));
         gbc.gridx = 1;
-        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.weightx = 0;
+        gbc.anchor = GridBagConstraints.WEST;
         add(usernameLabel, gbc);
 
-        // Date Styles
-        date = new JLabel();
-        date.setFont(new Font("Arial", Font.PLAIN, 12));
+        // Filler to push date and menu to the right
         gbc.gridx = 2;
+        gbc.weightx = 1;
+        add(Box.createGlue(), gbc);
+
+        // Date
+        date = new JLabel();
+        date.setFont(new Font("Arial", Font.BOLD, 14));
+        gbc.gridx = 3;
+        gbc.weightx = 0;
         gbc.anchor = GridBagConstraints.EAST;
-        gbc.weightx = 1.0;
         add(date, gbc);
 
         // Menu Bar
-        menuBar = new JMenuBar();
-        menuBar.setBackground(Color.WHITE); // Set background to white
+        menuBar = new JMenuBar() {
+            @Override
+            public Dimension getPreferredSize() {
+                Dimension d = super.getPreferredSize();
+                d.height = 25;  // Adjust the height to make it smaller vertically
+                return d;
+            }
+        };
+        menuBar.setBackground(Color.WHITE);
         menu = new JMenu("Menu");
-        menu.setBackground(Color.WHITE); // Set background to white
-        menu.setBorder(BorderFactory.createEmptyBorder()); // Remove borders
+        menu.setFont(new Font("Arial", Font.PLAIN, 14));
+        menu.setBackground(Color.WHITE);
+        menu.setBorder(BorderFactory.createEmptyBorder());
         logoutMenuItem = new JMenuItem("Cerrar Sesión");
-        logoutMenuItem.addActionListener(logoutAction);
+        logoutMenuItem.setFont(new Font("Arial", Font.PLAIN, 14));
+        logoutMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int response = JOptionPane.showConfirmDialog(
+                        null,
+                        "¿Está seguro de que desea cerrar sesión?",
+                        "Confirmar Cerrar Sesión",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE
+                );
+                if (response == JOptionPane.YES_OPTION) {
+                    logoutAction.actionPerformed(e);
+                }
+            }
+        });
         menu.add(logoutMenuItem);
         menuBar.add(menu);
 
-        gbc.gridx = 3;
+        gbc.gridx = 4;
+        gbc.weightx = 0;
         gbc.anchor = GridBagConstraints.EAST;
         add(menuBar, gbc);
 
