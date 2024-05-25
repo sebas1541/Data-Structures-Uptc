@@ -4,7 +4,7 @@ import co.edu.uptc.model.Budget;
 import co.edu.uptc.model.Category;
 import co.edu.uptc.model.User;
 import co.edu.uptc.model.UserManager;
-import co.edu.uptc.net.BudgetData;
+import co.edu.uptc.dto.BudgetData;
 import co.edu.uptc.net.Response;
 import com.google.gson.Gson;
 

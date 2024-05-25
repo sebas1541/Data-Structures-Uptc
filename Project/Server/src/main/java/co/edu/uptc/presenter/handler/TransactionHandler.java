@@ -3,9 +3,9 @@ package co.edu.uptc.presenter.handler;
 import co.edu.uptc.model.Transaction;
 import co.edu.uptc.model.User;
 import co.edu.uptc.model.UserManager;
-import co.edu.uptc.net.FamilyMemberData;
+import co.edu.uptc.dto.FamilyMemberData;
 import co.edu.uptc.net.Response;
-import co.edu.uptc.net.TransactionData;
+import co.edu.uptc.dto.TransactionData;
 import com.google.gson.Gson;
 
 import java.io.DataOutputStream;

@@ -1,10 +1,10 @@
 package co.edu.uptc.client.presenter;
 
+import co.edu.uptc.client.dto.*;
 import co.edu.uptc.client.net.*;
 import co.edu.uptc.client.view.*;
 import com.google.gson.Gson;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

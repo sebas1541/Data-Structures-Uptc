@@ -163,7 +163,7 @@ public class User {
     // Methods for Managing Family Group
     public void addFamilyMember(User member) {
         if (familyGroup == null) {
-            familyGroup = new FamilyGroup(this.userId + "group"); // Use userId as groupId or another unique identifier
+            familyGroup = new FamilyGroup(this.userId + "group");
         }
         familyGroup.addMember(member);
     }

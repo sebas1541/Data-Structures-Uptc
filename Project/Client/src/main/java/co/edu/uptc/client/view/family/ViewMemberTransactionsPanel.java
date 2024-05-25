@@ -1,8 +1,7 @@
 package co.edu.uptc.client.view.family;
 
 import co.edu.uptc.client.presenter.ClientPresenter;
-import co.edu.uptc.client.net.TransactionData;
-import co.edu.uptc.client.view.utils.RoundedPanel;
+import co.edu.uptc.client.dto.TransactionData;
 import com.google.gson.Gson;
 
 import javax.swing.*;

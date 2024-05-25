@@ -1,4 +1,4 @@
-package co.edu.uptc.net;
+package co.edu.uptc.utils;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;

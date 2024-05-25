@@ -2,9 +2,9 @@ package co.edu.uptc.presenter.handler;
 
 import co.edu.uptc.model.User;
 import co.edu.uptc.model.UserManager;
-import co.edu.uptc.net.LoginData;
+import co.edu.uptc.dto.LoginData;
 import co.edu.uptc.net.Response;
-import co.edu.uptc.net.UserData;
+import co.edu.uptc.dto.UserData;
 import com.google.gson.Gson;
 
 import java.io.DataOutputStream;

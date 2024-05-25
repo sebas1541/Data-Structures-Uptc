@@ -1,7 +1,7 @@
 package co.edu.uptc.client.view.budget;
 
 import co.edu.uptc.client.presenter.ClientPresenter;
-import co.edu.uptc.client.net.BudgetData;
+import co.edu.uptc.client.dto.BudgetData;
 import com.google.gson.Gson;
 
 import javax.swing.*;

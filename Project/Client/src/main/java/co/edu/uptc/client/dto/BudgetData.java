@@ -1,12 +1,11 @@
-package co.edu.uptc.net;
+package co.edu.uptc.client.dto;
 
 public class BudgetData {
     private String userId;
-    private String budgetId; // New field for budget ID
+    private String budgetId; // this parameter seems to be expected but not provided in some calls
     private String category;
     private double amount;
 
-    // Updated constructor to include budgetId
     public BudgetData(String userId, String budgetId, String category, double amount) {
         this.userId = userId;
         this.budgetId = budgetId;
@@ -14,37 +13,46 @@ public class BudgetData {
         this.amount = amount;
     }
 
-    // Getters
+    // Getters and setters
     public String getUserId() {
         return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getBudgetId() {
         return budgetId;
     }
 
-    public String getCategory() {
-        return category;
-    }
-
-    public double getAmount() {
-        return amount;
-    }
-
-    // Setters
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
     public void setBudgetId(String budgetId) {
         this.budgetId = budgetId;
+    }
+
+    public String getCategory() {
+        return category;
     }
 
     public void setCategory(String category) {
         this.category = category;
     }
 
+    public double getAmount() {
+        return amount;
+    }
+
     public void setAmount(double amount) {
         this.amount = amount;
+    }
+
+    @Override
+    public String toString() {
+        return "BudgetData{" +
+                "userId='" + userId + '\'' +
+                ", budgetId='" + budgetId + '\'' +
+                ", category='" + category + '\'' +
+                ", amount=" + amount +
+                '}';
     }
 }

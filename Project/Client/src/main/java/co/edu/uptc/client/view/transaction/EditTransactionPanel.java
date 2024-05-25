@@ -1,7 +1,7 @@
 package co.edu.uptc.client.view.transaction;
 
 import co.edu.uptc.client.presenter.ClientPresenter;
-import co.edu.uptc.client.net.TransactionData;
+import co.edu.uptc.client.dto.TransactionData;
 import co.edu.uptc.client.view.utils.RoundedPanel;
 import com.google.gson.Gson;
 

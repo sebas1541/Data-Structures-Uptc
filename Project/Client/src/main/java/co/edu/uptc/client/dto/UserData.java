@@ -1,4 +1,4 @@
-package co.edu.uptc.client.net;
+package co.edu.uptc.client.dto;
 
 public class UserData {
     private String username;

@@ -2,7 +2,7 @@ package co.edu.uptc.presenter.handler;
 
 import co.edu.uptc.model.User;
 import co.edu.uptc.model.UserManager;
-import co.edu.uptc.net.FamilyMemberData;
+import co.edu.uptc.dto.FamilyMemberData;
 import co.edu.uptc.net.Response;
 import com.google.gson.Gson;
 

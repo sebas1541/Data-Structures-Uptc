@@ -1,7 +1,7 @@
 package co.edu.uptc.presenter;
 
 import co.edu.uptc.model.UserManager;
-import co.edu.uptc.net.LocalDateTimeAdapter;
+import co.edu.uptc.utils.LocalDateTimeAdapter;
 import co.edu.uptc.net.Request;
 import co.edu.uptc.net.Response;
 import co.edu.uptc.presenter.handler.BudgetHandler;

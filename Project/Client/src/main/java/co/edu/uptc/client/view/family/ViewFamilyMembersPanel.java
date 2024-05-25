@@ -1,7 +1,7 @@
 package co.edu.uptc.client.view.family;
 
 import co.edu.uptc.client.presenter.ClientPresenter;
-import co.edu.uptc.client.net.FamilyMemberData;
+import co.edu.uptc.client.dto.FamilyMemberData;
 import co.edu.uptc.client.view.utils.RoundedPanel;
 import com.google.gson.Gson;
 
