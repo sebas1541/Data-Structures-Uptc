@@ -29,6 +29,7 @@ public class ReportGenerator {
         }
     }
 
+
     public void generateTXTReport(List<TransactionData> transactions) throws IOException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(TXT_FILE_PATH))) {
             for (TransactionData transaction : transactions) {
