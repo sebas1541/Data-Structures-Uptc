@@ -14,6 +14,7 @@ import co.edu.uptc.client.view.common.LeftPanel;
 import co.edu.uptc.client.view.common.TopPanel;
 import co.edu.uptc.client.view.panels.login.LoginView;
 import co.edu.uptc.client.view.panels.login.RegisterView;
+import co.edu.uptc.client.view.panels.login.SelectServerView;
 import co.edu.uptc.client.view.panels.transaction.TransactionView;
 
 public class MainFrame extends JFrame {
@@ -26,6 +27,7 @@ public class MainFrame extends JFrame {
     private BudgetView budgetView;
     private FamilyGroupView familyGroupView;
     private ExportDataView exportDataView;
+    private SelectServerView selectServerView;
     private ClientPresenter presenter;
 
     public MainFrame(ClientPresenter presenter) {
@@ -44,7 +46,9 @@ public class MainFrame extends JFrame {
         budgetView = new BudgetView(presenter);
         familyGroupView = new FamilyGroupView(presenter);
         exportDataView = new ExportDataView(presenter);
+        selectServerView = new SelectServerView(presenter);
 
+        mainPanel.add(selectServerView, "SelectServerView");
         mainPanel.add(loginView, "LoginView");
         mainPanel.add(registerView, "RegisterView");
         mainPanel.add(transactionView, "TransactionView");
@@ -69,7 +73,7 @@ public class MainFrame extends JFrame {
         CardLayout cl = (CardLayout) (mainPanel.getLayout());
         System.out.println("Switching to view: " + viewName);
 
-        if ("LoginView".equals(viewName) || "RegisterView".equals(viewName)) {
+        if ("LoginView".equals(viewName) || "RegisterView".equals(viewName) || "SelectServerView".equals(viewName)) {
             removePanels();
         } else {
             addPanels();

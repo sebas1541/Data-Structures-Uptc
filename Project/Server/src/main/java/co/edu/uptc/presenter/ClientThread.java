@@ -106,12 +106,12 @@ public class ClientThread extends Thread {
         } catch (SocketException e) {
             System.out.println("Client disconnected");
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Client disconnected");
         } finally {
             try {
                 socket.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("Client disconnected");
             }
         }
     }

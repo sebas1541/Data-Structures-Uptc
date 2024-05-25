@@ -8,8 +8,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.awt.Desktop;
 import java.io.File;
-
-
+import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.time.LocalDateTime;
@@ -25,15 +24,33 @@ public class ClientPresenter {
     private ReportGenerator reportGenerator;
 
     public ClientPresenter() {
-        connection = new ClientConnection("localhost", 1234);
-        gson = new Gson();
         mainFrame = new MainFrame(this);
+        gson = new Gson();
         reportGenerator = new ReportGenerator();
-        start();
+        showSelectServerView();
     }
+
+    public void initializeConnection() throws IOException {
+        String serverAddress = "localhost"; // Default to localhost
+        try (FileReader reader = new FileReader("data/server_address.txt")) {
+            char[] buffer = new char[256];
+            int read = reader.read(buffer);
+            if (read > 0) {
+                serverAddress = new String(buffer, 0, read).trim();
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading server address: " + e.getMessage());
+        }
+        connection = new ClientConnection(serverAddress, 1234);
+    }
+
 
     public void start() {
         System.out.println("Starting ClientPresenter...");
+        if (connection == null) {
+            System.err.println("Error: Connection is not initialized.");
+            return;
+        }
         try {
             connection.connect();
             mainFrame.setVisible(true);
@@ -260,6 +277,9 @@ public class ClientPresenter {
         });
     }
 
+    public void showSelectServerView() {
+        mainFrame.showView("SelectServerView");
+    }
 
     public void showTransactionView() {
         mainFrame.showView("TransactionView");
@@ -285,4 +305,7 @@ public class ClientPresenter {
         mainFrame.showView("RegisterView");
     }
 
+    public MainFrame getMainFrame() {
+        return mainFrame;
+    }
 }

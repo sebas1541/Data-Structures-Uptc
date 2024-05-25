@@ -1,2 +1,0 @@
-ID: TXN-1716609076721 | Amount: 86500.0 | Alimentación | Comida
-ID: TXN-1716609104439 | Amount: 67900.0 | Ropa y Calzado | Zapatos
