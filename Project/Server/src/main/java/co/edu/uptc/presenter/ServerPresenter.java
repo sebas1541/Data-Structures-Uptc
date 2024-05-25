@@ -35,7 +35,4 @@ public class ServerPresenter {
         }
     }
 
-    public static void main(String[] args) throws IOException {
-        new ServerPresenter();
-    }
 }

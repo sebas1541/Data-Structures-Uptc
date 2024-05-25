@@ -1,9 +1,9 @@
 package co.edu.uptc.client.presenter;
 
-import co.edu.uptc.client.ReportGenerator;
+import co.edu.uptc.client.utils.ReportGenerator;
 import co.edu.uptc.client.dto.*;
 import co.edu.uptc.client.net.*;
-import co.edu.uptc.client.view.*;
+import co.edu.uptc.client.view.frame.MainFrame;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.awt.Desktop;
@@ -33,6 +33,7 @@ public class ClientPresenter {
     }
 
     public void start() {
+        System.out.println("Starting ClientPresenter...");
         try {
             connection.connect();
             mainFrame.setVisible(true);
@@ -284,11 +285,4 @@ public class ClientPresenter {
         mainFrame.showView("RegisterView");
     }
 
-    public void showAddFamilyMemberView() {
-        mainFrame.getFamilyGroupView().showPanel("AddFamilyMemberPanel");
-    }
-
-    public void showViewFamilyMembersView() {
-        mainFrame.getFamilyGroupView().showPanel("ViewFamilyMembersPanel");
-    }
 }
