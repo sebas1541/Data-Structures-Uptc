@@ -3,6 +3,7 @@ package co.edu.uptc.model;
 import co.edu.uptc.structures.binarytrees.MyAvlTree;
 import co.edu.uptc.structures.stacks.MyStack;
 
+import java.io.Serializable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class User {
+public class User implements Serializable {
     private String userId;
     private String username;
     private String hashedPassword;

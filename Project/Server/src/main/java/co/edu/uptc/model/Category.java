@@ -1,9 +1,10 @@
 package co.edu.uptc.model;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
-public class Category {
+public class Category implements Serializable {
     private String categoryId;
     private String name;
     private String description;

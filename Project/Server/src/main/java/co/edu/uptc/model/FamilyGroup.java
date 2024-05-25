@@ -1,9 +1,10 @@
 package co.edu.uptc.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FamilyGroup {
+public class FamilyGroup implements Serializable {
     private String groupId;
     private List<User> members;
 

@@ -1,6 +1,8 @@
 package co.edu.uptc.model;
 
-public class Budget {
+import java.io.Serializable;
+
+public class Budget implements Serializable {
     private String budgetId;
     private String userId;
     private Category category;

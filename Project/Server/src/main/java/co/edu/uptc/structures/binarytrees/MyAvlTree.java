@@ -2,9 +2,10 @@ package co.edu.uptc.structures.binarytrees;
 
 import co.edu.uptc.structures.lists.Node;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class MyAvlTree<T> {
+public class MyAvlTree<T> implements Serializable {
     private Node<T> root;
     private IAvlComparator<T> comparator;
 

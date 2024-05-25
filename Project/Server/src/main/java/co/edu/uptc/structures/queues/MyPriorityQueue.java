@@ -1,8 +1,9 @@
 package co.edu.uptc.structures.queues;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
-public class MyPriorityQueue <T> {
+public class MyPriorityQueue <T> implements Serializable {
     private MyQueue<T>[] queues;
 
     public MyPriorityQueue(int n) {

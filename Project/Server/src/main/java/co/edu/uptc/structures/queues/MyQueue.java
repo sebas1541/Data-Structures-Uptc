@@ -2,9 +2,10 @@ package co.edu.uptc.structures.queues;
 
 import co.edu.uptc.structures.lists.MyList;
 
+import java.io.Serializable;
 import java.util.NoSuchElementException;
 
-public class MyQueue<T> {
+public class MyQueue<T> implements Serializable {
     private MyList<T> myList;
 
     public MyQueue() {

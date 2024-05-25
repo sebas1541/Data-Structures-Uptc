@@ -1,9 +1,10 @@
 package co.edu.uptc.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class Transaction implements Comparable<Transaction> {
+public class Transaction implements Comparable<Transaction>, Serializable {
     private String transactionId;
     private String userId; // Add userId here
     private double amount;

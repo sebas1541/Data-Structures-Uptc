@@ -1,9 +1,10 @@
 package co.edu.uptc.structures.stacks;
 
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-public class MyStack<T> {
+public class MyStack<T> implements Serializable {
     private LinkedList<T> stack;
 
     public MyStack() {

@@ -1,9 +1,10 @@
 package co.edu.uptc.structures.lists;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.function.UnaryOperator;
 
-public class MyList<T> implements List<T>, Iterable<T> {
+public class MyList<T> implements List<T>, Iterable<T>, Serializable{
     private Node<T> head;
 
     public MyList() {

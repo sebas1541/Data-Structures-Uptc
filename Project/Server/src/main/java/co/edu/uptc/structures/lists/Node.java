@@ -1,6 +1,8 @@
 package co.edu.uptc.structures.lists;
 
-public class Node<T> {
+import java.io.Serializable;
+
+public class Node<T> implements Serializable {
     private T data;
     private Node<T> left;
     private Node<T> right;

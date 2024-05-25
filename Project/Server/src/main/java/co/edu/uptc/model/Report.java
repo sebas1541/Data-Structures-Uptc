@@ -1,8 +1,9 @@
 package co.edu.uptc.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Report {
+public class Report implements Serializable {
     private String reportId;
     private User user;
     private LocalDate reportDate;
