@@ -7,7 +7,7 @@ import co.edu.uptc.client.presenter.ClientPresenter;
 public class ExportDataView extends JPanel {
     private ClientPresenter presenter;
     private JButton exportToTxtButton;
-    private JButton exportToExcelButton;
+    private JButton exportToCsvButton;
     private JButton exportToPdfButton;
     private JButton backButton;
 
@@ -34,10 +34,10 @@ public class ExportDataView extends JPanel {
         gbc.gridwidth = 1;
         add(exportToTxtButton, gbc);
 
-        exportToExcelButton = new JButton("Export to Excel");
+        exportToCsvButton = new JButton("Export to CSV");
         gbc.gridx = 1;
         gbc.gridy = 1;
-        add(exportToExcelButton, gbc);
+        add(exportToCsvButton, gbc);
 
         exportToPdfButton = new JButton("Export to PDF");
         gbc.gridx = 0;
@@ -50,7 +50,7 @@ public class ExportDataView extends JPanel {
         add(backButton, gbc);
 
         exportToTxtButton.addActionListener(e -> exportData("txt"));
-        exportToExcelButton.addActionListener(e -> exportData("excel"));
+        exportToCsvButton.addActionListener(e -> exportData("csv"));
         exportToPdfButton.addActionListener(e -> exportData("pdf"));
         backButton.addActionListener(e -> presenter.showTransactionView());
     }

@@ -22,13 +22,32 @@
             <version>2.10.1</version>
         </dependency>
 
-        <!-- Add any other dependencies required by the client project -->
+        <!-- Apache Commons CSV for CSV file generation -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-csv</artifactId>
+            <version>1.8</version>
+        </dependency>
+
+        <!-- iText 7 for PDF file generation -->
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>kernel</artifactId>
+            <version>7.1.13</version>
+        </dependency>
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>layout</artifactId>
+            <version>7.1.13</version>
+        </dependency>
     </dependencies>
 
     <repositories>
         <repository>
-            <id>central</id>
-            <url>https://repo.maven.apache.org/maven2</url>
+            <id>itext</id>
+            <name>iText Repository</name>
+            <url>https://repo.itextsupport.com/releases</url>
         </repository>
     </repositories>
 </project>
+

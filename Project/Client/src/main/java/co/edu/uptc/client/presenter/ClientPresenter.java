@@ -1,13 +1,20 @@
 package co.edu.uptc.client.presenter;
 
+import co.edu.uptc.client.ReportGenerator;
 import co.edu.uptc.client.dto.*;
 import co.edu.uptc.client.net.*;
 import co.edu.uptc.client.view.*;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.awt.Desktop;
+import java.io.File;
+
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.function.Consumer;
 
 public class ClientPresenter {
@@ -15,11 +22,13 @@ public class ClientPresenter {
     private MainFrame mainFrame;
     private Gson gson;
     private String currentUser;
+    private ReportGenerator reportGenerator;
 
     public ClientPresenter() {
         connection = new ClientConnection("localhost", 1234);
         gson = new Gson();
         mainFrame = new MainFrame(this);
+        reportGenerator = new ReportGenerator();
         start();
     }
 
@@ -203,13 +212,53 @@ public class ClientPresenter {
         callback.accept(response);
     }
 
-
     public void exportData(String format) throws IOException {
-        Request request = new Request("exportData", format);
-        connection.sendRequest(request);
-        Response response = connection.receiveResponse();
-        mainFrame.getExportDataView().showMessage(response.getData());
+        viewTransactions(response -> {
+            if ("success".equals(response.getStatus())) {
+                Type transactionListType = new TypeToken<List<TransactionData>>() {}.getType();
+                List<TransactionData> transactions = gson.fromJson(response.getData(), transactionListType);
+
+                try {
+                    String filePath = null;
+                    switch (format.toLowerCase()) {
+                        case "txt":
+                            reportGenerator.generateTXTReport(transactions);
+                            filePath = "data/report.txt";
+                            break;
+                        case "csv":
+                            reportGenerator.generateCSVReport(transactions);
+                            filePath = "data/report.csv";
+                            break;
+                        case "pdf":
+                            reportGenerator.generatePDFReport(transactions);
+                            filePath = "data/report.pdf";
+                            break;
+                        default:
+                            mainFrame.getExportDataView().showMessage("Invalid format: " + format);
+                            return;
+                    }
+
+                    mainFrame.getExportDataView().showMessage("Report generated successfully in " + format.toUpperCase() + " format.");
+
+                    // Open the file
+                    if (filePath != null) {
+                        File file = new File(filePath);
+                        if (file.exists()) {
+                            Desktop desktop = Desktop.getDesktop();
+                            desktop.open(file);
+                        } else {
+                            mainFrame.getExportDataView().showMessage("Error: File not found.");
+                        }
+                    }
+                } catch (IOException e) {
+                    mainFrame.getExportDataView().showMessage("Error generating report: " + e.getMessage());
+                }
+            } else {
+                mainFrame.getExportDataView().showMessage("Error fetching transactions: " + response.getData());
+            }
+        });
     }
+
 
     public void showTransactionView() {
         mainFrame.showView("TransactionView");

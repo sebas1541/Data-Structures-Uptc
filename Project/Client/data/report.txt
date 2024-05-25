@@ -1,0 +1,2 @@
+ID: TXN-1716607133639 | Amount: 65400.0 | Otros Gastos | Yorley Tragaloza
+ID: TXN-1716607143046 | Amount: 100500.0 | Alimentación | Comida viernes noche
