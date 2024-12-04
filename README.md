@@ -1,6 +1,6 @@
 # Data-Structures-Uptc
 
-A comprehensive collection of data structures implemented in Java and Dart.
+A comprehensive collection of data structures implemented in Java.
 
 ## Overview
 
